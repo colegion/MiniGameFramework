@@ -1,6 +1,8 @@
+using System;
 using Helpers;
 using Interfaces;
 using Pool;
+using ScriptableObjects.Level;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -13,6 +15,8 @@ public class GameController : MonoBehaviour
     
     private IGameContext _currentContext;
     public IGameContext CurrentContext => _currentContext;
+    
+    public static event Action<bool> OnGameOver;
 
     private void Awake()
     {
@@ -38,6 +42,11 @@ public class GameController : MonoBehaviour
     public void ReturnPooledObject(IPoolable poolable)
     {
         _poolController?.ReturnPooledObject(poolable);
+    }
+
+    public void TriggerOnGameOver(bool isGameOver)
+    {
+        OnGameOver?.Invoke(isGameOver);
     }
 
     public void StartGame() => _currentContext?.StartGame();

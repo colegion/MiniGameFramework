@@ -12,6 +12,12 @@ namespace Helpers
         public static int DefaultChipLayer = 1;
     }
 
+    public enum GameMode
+    {
+        LinkGame,
+        CardGame
+    }
+
     public enum SceneType
     {
         MainMenu,

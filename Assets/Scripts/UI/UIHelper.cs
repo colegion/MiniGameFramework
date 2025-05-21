@@ -1,5 +1,6 @@
 using System;
 using Controllers;
+using LinkGame;
 using LinkGame.Controllers;
 using ScriptableObjects;
 using ScriptableObjects.Level;
@@ -13,7 +14,6 @@ namespace UI
         [SerializeField] private Canvas mainCanvas;
         [SerializeField] private TextMeshProUGUI moveLimitField;
         [SerializeField] private TargetUIManager targetUIManager;
-        [SerializeField] private UIScreenLoader screenLoader;
 
         private int _moveCount;
         private void OnEnable()
@@ -41,24 +41,16 @@ namespace UI
             moveLimitField.text = $"{_moveCount}";
             targetUIManager.OnMove(moveConfig);
         }
-
-        private void HandleOnGameOver(bool isSuccess)
-        {
-            screenLoader.LoadPopup(isSuccess, mainCanvas.transform);
-        }
-
         private void AddListeners()
         {
-            //LinkGameController.OnLevelLoaded += HandleOnLevelLoaded;
-            //LinkGameController.OnSuccessfulMove += HandleOnMove;
-            //LinkGameController.OnGameOver += HandleOnGameOver;
+            LinkGameContext.OnLevelLoaded += HandleOnLevelLoaded;
+            LinkGameContext.OnSuccessfulMove += HandleOnMove;
         }
         
         private void RemoveListeners()
         {
-            //LinkGameController.OnLevelLoaded -= HandleOnLevelLoaded;
-            //LinkGameController.OnSuccessfulMove -= HandleOnMove;
-            //LinkGameController.OnGameOver -= HandleOnGameOver;
+            LinkGameContext.OnLevelLoaded -= HandleOnLevelLoaded;
+            LinkGameContext.OnSuccessfulMove -= HandleOnMove;
         }
     }
 }

@@ -37,7 +37,6 @@ namespace LinkGame
         
         public static event Action<LevelConfig> OnLevelLoaded;
         public static event Action<LevelTargetConfig> OnSuccessfulMove;
-        public static event Action<bool> OnGameOver;
 
         public LinkGameContext(LevelConfig config, Transform parent, CameraController camera, LinkInputController linkInput)
         {
@@ -75,7 +74,6 @@ namespace LinkGame
         {
             _linkInputController.ToggleInput(false);
             _linkModeLevelManager.ClearProgress();
-            OnGameOver?.Invoke(true); // todo: true should change
         }
 
         public void Cleanup()
@@ -182,7 +180,8 @@ namespace LinkGame
         {
             _linkInputController.ToggleInput(false);
             _linkModeLevelManager.ClearProgress();
-            OnGameOver?.Invoke(isSuccess);
+            GameController.Instance.TriggerOnGameOver(isSuccess);
+            EndGame();
         }
     }
 }

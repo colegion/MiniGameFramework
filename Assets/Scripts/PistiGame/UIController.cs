@@ -67,10 +67,10 @@ namespace PistiGame
             botTypeDropdown.onValueChanged.AddListener(index =>
             {
                 _selectedBotType = (BotType)index;
+                bootstrapper.SetBotType(_selectedBotType);
             });
 
             _selectedBotType = (BotType)botTypeDropdown.value;
-            bootstrapper.SetBotType(_selectedBotType);
         }
 
         private void AnimateOnNewRound(int round, Action onComplete)

@@ -25,6 +25,7 @@ namespace UI
         {
             GameController.Instance.CurrentContext.Cleanup();
             gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 }
