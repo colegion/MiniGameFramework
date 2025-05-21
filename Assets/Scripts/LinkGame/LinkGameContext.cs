@@ -63,12 +63,12 @@ namespace LinkGame
             _tracker = new LevelProgressTracker(_levelConfig);
 
             OnLevelLoaded?.Invoke(_levelConfig);
+            StartGame();
         }
 
         public void StartGame()
         {
             _linkInputController.ToggleInput(true);
-            _linkModeLevelManager.CreateRandomBoard(_levelConfig.boardWidth, _levelConfig.boardHeight);
         }
 
         public void EndGame()
@@ -80,16 +80,6 @@ namespace LinkGame
 
         public void Cleanup()
         {
-            /*_levelConfig.moveLimit = _tracker.GetRemainingMoves();
-            _levelConfig.levelTargets = _tracker.GetRemainingTargets();
-
-            var levelData = new LevelData
-            {
-                levelConfig = _levelConfig,
-                tiles = _levelTiles
-            };
-
-            _linkModeLevelManager.SaveLevel(levelData);*/
             RestartLevel();
         }
 

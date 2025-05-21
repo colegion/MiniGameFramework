@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Linq;
 using Controllers;
@@ -17,6 +18,11 @@ namespace LinkGame
         [SerializeField] private Transform puzzleParent;
         [SerializeField] private CameraController cameraController;
         [SerializeField] private LinkInputController inputController;
+
+        private void Awake()
+        {
+            StartCoroutine(InitializeDependencies());
+        }
 
         public override IEnumerator InitializeDependencies()
         {

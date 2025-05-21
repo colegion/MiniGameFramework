@@ -26,6 +26,7 @@ public class GameController : MonoBehaviour
         _currentContext?.Cleanup();
         _currentContext = context;
         _currentContext.Initialize();
+        //StartGame();
     }
     
     private void LoadFields()
