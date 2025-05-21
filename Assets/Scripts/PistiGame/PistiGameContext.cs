@@ -191,7 +191,7 @@ namespace PistiGame
 
         public void Cleanup()
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }
