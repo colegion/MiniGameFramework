@@ -1,6 +1,7 @@
 using Controllers;
 using Helpers;
 using Interfaces;
+using LinkGame.Controllers;
 using ScriptableObjects.Chip;
 using UnityEngine;
 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Controllers;
 using Interfaces;
+using LinkGame.Controllers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

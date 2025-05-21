@@ -1,17 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using Controllers;
 using GridSystem;
 using Helpers;
 using Interfaces;
 using Pool;
 using ScriptableObjects.Level;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Grid = GridSystem.Grid;
 
-namespace Controllers
+namespace LinkGame.Controllers
 {
     public class GameController : MonoBehaviour
     {

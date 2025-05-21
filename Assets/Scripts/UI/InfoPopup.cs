@@ -1,4 +1,5 @@
 using Controllers;
+using LinkGame.Controllers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;

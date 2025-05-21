@@ -1,5 +1,6 @@
 using System;
 using Controllers;
+using LinkGame.Controllers;
 using ScriptableObjects;
 using ScriptableObjects.Level;
 using TMPro;
