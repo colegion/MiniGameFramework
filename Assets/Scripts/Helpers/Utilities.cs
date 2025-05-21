@@ -11,6 +11,13 @@ namespace Helpers
         public static int LinkThreshold = 3;
         public static int DefaultChipLayer = 1;
     }
+
+    public enum SceneType
+    {
+        MainMenu,
+        LinkGame,
+        PistiGame,
+    }
     
     public enum PoolableTypes
     {
