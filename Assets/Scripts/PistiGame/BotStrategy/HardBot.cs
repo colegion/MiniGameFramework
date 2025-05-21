@@ -21,34 +21,37 @@ namespace BotStrategy
 
         public void Play()
         {
-            var cardsOnTable = PistiGameController.Instance.GetCardsOnTable();
-            
-            foreach (var card in cardsOnTable)
-            {
-                _seenCards.Add(card.GetConfig().cardValue);
-            }
+            var cardsOnTable = (GameController.Instance.CurrentContext as PistiGameContext)?.GetCardsOnTable();
 
-            var hand = _bot.GetHand();
-            Card lastCard = cardsOnTable.Count > 0 ? cardsOnTable[^1] : null;
-
-            if (lastCard == null)
+            if (cardsOnTable != null)
             {
-                PlayLeastProbableCard(hand);
-                return;
-            }
-
-            foreach (var card in hand)
-            {
-                if (card.GetConfig().cardValue == lastCard.GetConfig().cardValue)
+                foreach (var card in cardsOnTable)
                 {
-                    PlayCard(card);
+                    _seenCards.Add(card.GetConfig().cardValue);
+                }
+
+                var hand = _bot.GetHand();
+                Card lastCard = cardsOnTable.Count > 0 ? cardsOnTable[^1] : null;
+
+                if (lastCard == null)
+                {
+                    PlayLeastProbableCard(hand);
                     return;
                 }
+
+                foreach (var card in hand)
+                {
+                    if (card.GetConfig().cardValue == lastCard.GetConfig().cardValue)
+                    {
+                        PlayCard(card);
+                        return;
+                    }
+                }
+
+                if (TryPlayJack()) return;
+
+                PlayLeastProbableCard(hand);
             }
-
-            if (TryPlayJack()) return;
-
-            PlayLeastProbableCard(hand);
         }
 
         private void PlayCard(Card card)

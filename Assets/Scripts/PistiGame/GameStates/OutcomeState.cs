@@ -1,73 +1,75 @@
-using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
 using Helpers;
 using Interfaces;
-using PistiGame;
 using PistiGame.Helpers;
-using UnityEngine;
 
-public class OutcomeState : IGameState
+namespace PistiGame.GameStates
 {
-    private GameRules _gameRules;
-    public void EnterState()
+    public class OutcomeState : IGameState
     {
-        if (_gameRules == null)
-            _gameRules = new GameRules();
-        DecideOutcomeIfPossible();
-    }
-
-    private void DecideOutcomeIfPossible()
-    {
-        var cardsOnTable = PistiGameController.Instance.GetCardsOnTable();
-        if (cardsOnTable.Count <= 1)
+        private GameRules _gameRules;
+        private PistiGameContext _context;
+        public void EnterState(PistiGameContext context)
         {
-            ExitState();
-            return;
+            if (_context == null)
+                _context = context;
+            if (_gameRules == null)
+                _gameRules = new GameRules();
+            DecideOutcomeIfPossible();
         }
 
-        var lastCallerType = PistiGameController.Instance.GetLastOutcomeCallerType();
-        var user = PistiGameController.Instance.GetUser(lastCallerType == GameStateTypes.BotTurn);
+        private void DecideOutcomeIfPossible()
+        {
+            var cardsOnTable = _context.GetCardsOnTable();
+            if (cardsOnTable.Count <= 1)
+            {
+                ExitState();
+                return;
+            }
 
-        if (_gameRules.IsMoveCollectable(cardsOnTable, out CollectType type))
-        {
-            if(type == CollectType.Pisti) user.IncrementPistiCount();
-            CollectCardsAndExit(user, cardsOnTable, type);
+            var lastCallerType = _context.GetLastOutcomeCallerType();
+            var user = _context.GetUser(lastCallerType == GameStateTypes.BotTurn);
+
+            if (_gameRules.IsMoveCollectable(cardsOnTable, out CollectType type))
+            {
+                if(type == CollectType.Pisti) user.IncrementPistiCount();
+                CollectCardsAndExit(user, cardsOnTable, type);
+            }
+            else
+            {
+                ExitState();
+            }
         }
-        else
-        {
-            ExitState();
-        }
-    }
     
-    private void CollectCardsAndExit(User user, List<Card> cardsOnTable, CollectType type)
-    {
-        user.CollectCards(cardsOnTable, type, () =>
+        private void CollectCardsAndExit(User user, List<Card> cardsOnTable, CollectType type)
         {
-            PistiGameController.Instance.ClearOnTableCards();
-            ExitState();
-        });
-    }
-
-    public void ExitState()
-    {
-        var lastCaller = PistiGameController.Instance.GetLastOutcomeCallerType();
-        GameStateTypes newCaller = lastCaller;
-        if (lastCaller == GameStateTypes.BotTurn)
-        {
-            newCaller = GameStateTypes.PlayerTurn;
+            user.CollectCards(cardsOnTable, type, () =>
+            {
+                _context.ClearOnTableCards();
+                ExitState();
+            });
         }
-        
-        else if (lastCaller == GameStateTypes.PlayerTurn)
-        {
-            newCaller = GameStateTypes.BotTurn;
-        }
-        
-        PistiGameController.Instance.ChangeState(PistiGameController.Instance.GetStateByType(newCaller));
-    }
 
-    public void ResetAttributes()
-    {
+        public void ExitState()
+        {
+            var lastCaller = _context.GetLastOutcomeCallerType();
+            GameStateTypes newCaller = lastCaller;
+            if (lastCaller == GameStateTypes.BotTurn)
+            {
+                newCaller = GameStateTypes.PlayerTurn;
+            }
         
+            else if (lastCaller == GameStateTypes.PlayerTurn)
+            {
+                newCaller = GameStateTypes.BotTurn;
+            }
+        
+            _context.ChangeState(_context.GetStateByType(newCaller));
+        }
+
+        public void ResetAttributes()
+        {
+        
+        }
     }
 }

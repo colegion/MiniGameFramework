@@ -1,10 +1,9 @@
-using PistiGame;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Helpers
+namespace PistiGame.Helpers
 {
-    public class CardTapHandler : MonoBehaviour
+    public class CardInputController : MonoBehaviour
     {
         [SerializeField] private Camera mainCamera;
 
@@ -15,13 +14,13 @@ namespace Helpers
         {
             if(_inputActions == null) return;
             _inputActions.Gameplay.Tap.performed -= OnTapPerformed;
-            _inputActions.Disable();
+            ToggleInput(false);
         }
         
         public void Initialize()
         {
             _inputActions = new GameInputActions();
-            _inputActions.Enable();
+            ToggleInput(true);
             _inputActions.Gameplay.Tap.performed += OnTapPerformed;
         }
 
@@ -32,7 +31,6 @@ namespace Helpers
 
         private void OnTapPerformed(InputAction.CallbackContext context)
         {
-            Debug.Log("tap performed");
             Vector2 screenPosition = Mouse.current.position.ReadValue();
             
             if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed)
@@ -49,6 +47,18 @@ namespace Helpers
                     Debug.Log($"Tapped on card: {card.name}");
                     _player.OnCardPlayed(card);
                 }
+            }
+        }
+
+        public void ToggleInput(bool toggle)
+        {
+            if (toggle)
+            {
+                _inputActions.Gameplay.Enable();
+            }
+            else
+            {
+                _inputActions.Gameplay.Disable();
             }
         }
     }

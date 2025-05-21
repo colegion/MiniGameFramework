@@ -1,126 +1,130 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using Helpers;
-using PistiGame;
+using PistiGame.GameStates;
 using PistiGame.Helpers;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class UIController : MonoBehaviour
+namespace PistiGame
 {
-    [SerializeField] private GameObject blackishPanel;
-    [SerializeField] private TextMeshProUGUI endGameField;
-    [SerializeField] private TextMeshProUGUI infoField;
-    [SerializeField] private Button startGameButton;
-    [SerializeField] private TMP_Dropdown botTypeDropdown; 
-
-    private BotType _selectedBotType;
-    private void OnEnable()
+    public class UIController : MonoBehaviour
     {
-        AddListeners();
-    }
+        [SerializeField] private GameObject blackishPanel;
+        [SerializeField] private TextMeshProUGUI endGameField;
+        [SerializeField] private TextMeshProUGUI infoField;
+        [SerializeField] private Button startGameButton;
+        [SerializeField] private TMP_Dropdown botTypeDropdown;
 
-    private void OnDisable()
-    {
-        RemoveListeners();
-    }
+        [SerializeField] private PistiBootstrapper bootstrapper;
 
-    private void Start()
-    {
-        PopulateBotDropdown();
-    }
-
-    private void RequestGame()
-    {
-        blackishPanel.gameObject.SetActive(false);
-        PistiGameController.Instance.StartGame(_selectedBotType);
-    }
-
-    private void HandleOnGameFinished(bool isWin)
-    {
-        blackishPanel.gameObject.SetActive(true);
-        endGameField.gameObject.SetActive(true);
-        if (isWin)
+        private BotType _selectedBotType;
+        private void OnEnable()
         {
-            endGameField.text = "You win!";
-            endGameField.color = Color.green;
+            AddListeners();
         }
-        else
+
+        private void OnDisable()
         {
-            endGameField.text = "You lose.";
-            endGameField.color = Color.red;
+            RemoveListeners();
         }
-    }
+
+        private void Start()
+        {
+            PopulateBotDropdown();
+        }
+
+        private void RequestGame()
+        {
+            blackishPanel.gameObject.SetActive(false);
+            bootstrapper.HandleOnGameRequested();
+        }
+
+        private void HandleOnGameFinished(bool isWin)
+        {
+            blackishPanel.gameObject.SetActive(true);
+            endGameField.gameObject.SetActive(true);
+            if (isWin)
+            {
+                endGameField.text = "You win!";
+                endGameField.color = Color.green;
+            }
+            else
+            {
+                endGameField.text = "You lose.";
+                endGameField.color = Color.red;
+            }
+        }
     
-    private void PopulateBotDropdown()
-    {
-        botTypeDropdown.ClearOptions();
-        List<string> options = new List<string>(Enum.GetNames(typeof(BotType)));
-        botTypeDropdown.AddOptions(options);
+        private void PopulateBotDropdown()
+        {
+            botTypeDropdown.ClearOptions();
+            List<string> options = new List<string>(Enum.GetNames(typeof(BotType)));
+            botTypeDropdown.AddOptions(options);
         
-        botTypeDropdown.onValueChanged.AddListener(index =>
+            botTypeDropdown.onValueChanged.AddListener(index =>
+            {
+                _selectedBotType = (BotType)index;
+            });
+
+            _selectedBotType = (BotType)botTypeDropdown.value;
+            bootstrapper.SetBotType(_selectedBotType);
+        }
+
+        private void AnimateOnNewRound(int round, Action onComplete)
         {
-            _selectedBotType = (BotType)index;
-        });
+            infoField.text = $"Round {round}";
+            infoField.transform.localScale = Vector3.one;
+            infoField.gameObject.SetActive(true);
+            Sequence sequence = DOTween.Sequence();
 
-        _selectedBotType = (BotType)botTypeDropdown.value;
-    }
+            sequence.Append(infoField.transform.DOScale(1.5f, 0.15f)
+                .SetEase(Ease.OutBack));
+            sequence.Join(infoField.DOColor(Color.yellow, 0.15f));
+            sequence.Append(infoField.transform.DOScale(1.0f, 0.35f)
+                .SetEase(Ease.InOutQuad));
+            sequence.Join(infoField.DOColor(Color.white, 0.35f));
+            sequence.OnComplete(() =>
+            {
+                infoField.gameObject.SetActive(false);
+                onComplete?.Invoke();
+            });
+        }
 
-    private void AnimateOnNewRound(int round, Action onComplete)
-    {
-        infoField.text = $"Round {round}";
-        infoField.transform.localScale = Vector3.one;
-        infoField.gameObject.SetActive(true);
-        Sequence sequence = DOTween.Sequence();
-
-        sequence.Append(infoField.transform.DOScale(1.5f, 0.15f)
-            .SetEase(Ease.OutBack));
-        sequence.Join(infoField.DOColor(Color.yellow, 0.15f));
-        sequence.Append(infoField.transform.DOScale(1.0f, 0.35f)
-            .SetEase(Ease.InOutQuad));
-        sequence.Join(infoField.DOColor(Color.white, 0.35f));
-        sequence.OnComplete(() =>
+        private void AnimateOnPisti()
         {
-            infoField.gameObject.SetActive(false);
-            onComplete?.Invoke();
-        });
-    }
+            infoField.text = "PİŞTİ!";
+            infoField.transform.localScale = Vector3.one;
+            infoField.gameObject.SetActive(true);
 
-    private void AnimateOnPisti()
-    {
-        infoField.text = "PİŞTİ!";
-        infoField.transform.localScale = Vector3.one;
-        infoField.gameObject.SetActive(true);
-
-        Sequence sequence = DOTween.Sequence();
-        sequence.Append(infoField.transform.DOScale(2f, 0.2f).SetEase(Ease.OutBack));
-        sequence.Join(infoField.DOColor(Color.yellow, 0.2f));
-        sequence.AppendInterval(0.2f);
-        sequence.Append(infoField.transform.DOScale(1.0f, 0.2f).SetEase(Ease.InOutQuad));
-        sequence.Join(infoField.DOColor(Color.white, 0.2f));
-        sequence.AppendCallback(() => infoField.transform.DOShakePosition(0.3f, 10f, 20));
-        sequence.AppendInterval(0.3f);
-        sequence.AppendCallback(() => infoField.gameObject.SetActive(false));
-    }
+            Sequence sequence = DOTween.Sequence();
+            sequence.Append(infoField.transform.DOScale(2f, 0.2f).SetEase(Ease.OutBack));
+            sequence.Join(infoField.DOColor(Color.yellow, 0.2f));
+            sequence.AppendInterval(0.2f);
+            sequence.Append(infoField.transform.DOScale(1.0f, 0.2f).SetEase(Ease.InOutQuad));
+            sequence.Join(infoField.DOColor(Color.white, 0.2f));
+            sequence.AppendCallback(() => infoField.transform.DOShakePosition(0.3f, 10f, 20));
+            sequence.AppendInterval(0.3f);
+            sequence.AppendCallback(() => infoField.gameObject.SetActive(false));
+        }
 
 
-    private void AddListeners()
-    {
-        startGameButton.onClick.AddListener(RequestGame);
-        PistiGameController.OnGameFinished += HandleOnGameFinished;
-        CardDistributionState.OnRoundDistributed += AnimateOnNewRound;
-        CardAnimator.OnPisti += AnimateOnPisti;
-    }
+        private void AddListeners()
+        {
+            startGameButton.onClick.AddListener(RequestGame);
+            //PistiGameController.OnGameFinished += HandleOnGameFinished;
+            CardDistributionState.OnRoundDistributed += AnimateOnNewRound;
+            CardAnimator.OnPisti += AnimateOnPisti;
+        }
 
-    private void RemoveListeners()
-    {
-        startGameButton.onClick.RemoveListener(RequestGame);
-        PistiGameController.OnGameFinished -= HandleOnGameFinished;
-        CardDistributionState.OnRoundDistributed -= AnimateOnNewRound;
-        CardAnimator.OnPisti -= AnimateOnPisti;
+        private void RemoveListeners()
+        {
+            startGameButton.onClick.RemoveListener(RequestGame);
+            //PistiGameController.OnGameFinished -= HandleOnGameFinished;
+            CardDistributionState.OnRoundDistributed -= AnimateOnNewRound;
+            CardAnimator.OnPisti -= AnimateOnPisti;
+        }
     }
 }

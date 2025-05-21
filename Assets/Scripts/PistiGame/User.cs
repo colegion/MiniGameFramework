@@ -102,7 +102,7 @@ namespace PistiGame
             card.ToggleInteractable(false);
             Cards.Remove(card);
             hand.EmptySlotByCard(card);
-            PistiGameController.Instance.AppendCardsOnTable(card);
+            (GameController.Instance.CurrentContext as PistiGameContext)?.AppendCardsOnTable(card);
             cardAnimator.AnimateSelectedCard(card, table.GetCardTarget(), true, () => { UserState.ExitState(); });
         }
 

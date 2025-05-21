@@ -8,10 +8,11 @@ namespace PistiGame.GameStates
     public abstract class TurnStateBase : IGameState
     {
         protected User User;
-
-        public void EnterState()
+        protected PistiGameContext Context;
+        public void EnterState(PistiGameContext context)
         {
-            Debug.Log("entered turn state");
+            if(Context == null)
+                Context = context;
             if (User == null)
                 User = GetUser();
 
@@ -27,9 +28,9 @@ namespace PistiGame.GameStates
 
         public virtual void ExitState()
         {
-            var outcomeState = PistiGameController.Instance.GetStateByType(GameStateTypes.Outcome);
-            PistiGameController.Instance.SetLastCallerType(GetGameStateType());
-            PistiGameController.Instance.ChangeState(outcomeState);
+            var outcomeState = Context.GetStateByType(GameStateTypes.Outcome);
+            Context.SetLastCallerType(GetGameStateType());
+            Context.ChangeState(outcomeState);
         }
 
         public void ResetAttributes()
@@ -39,9 +40,9 @@ namespace PistiGame.GameStates
 
         private void ExitImmediately()
         {
-            var distributionState = PistiGameController.Instance.GetStateByType(GameStateTypes.CardDistribution);
-            PistiGameController.Instance.SetLastCallerType(GetGameStateType());
-            PistiGameController.Instance.ChangeState(distributionState);
+            var distributionState = Context.GetStateByType(GameStateTypes.CardDistribution);
+            Context.SetLastCallerType(GetGameStateType());
+            Context.ChangeState(distributionState);
         }
 
         protected abstract User GetUser();

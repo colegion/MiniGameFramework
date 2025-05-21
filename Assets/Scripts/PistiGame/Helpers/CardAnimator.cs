@@ -50,7 +50,7 @@ namespace Helpers
             {
                 foreach (var card in cards)
                 {
-                    PistiGameController.Instance.ReturnObjectToPool(card);
+                    GameController.Instance.ReturnPooledObject(card);
                 }
                 
                 onComplete?.Invoke();
@@ -83,7 +83,7 @@ namespace Helpers
                 face.color = new Color(1f, 1f, 1f, 1f);
                 foreach (var card in cards)
                 {
-                    PistiGameController.Instance.ReturnObjectToPool(card);
+                    GameController.Instance.ReturnPooledObject(card);
                 }
                 onComplete?.Invoke();
             });
@@ -110,7 +110,7 @@ namespace Helpers
         
                 foreach (var card in cards)
                 {
-                    PistiGameController.Instance.ReturnObjectToPool(card);
+                    GameController.Instance.ReturnPooledObject(card);
                 }
         
                 onComplete?.Invoke();

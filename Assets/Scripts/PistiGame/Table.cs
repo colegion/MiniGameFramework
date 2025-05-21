@@ -65,7 +65,7 @@ public class Table : MonoBehaviour
         ToggleCardVisual(true);
         foreach (var card in _cardsOnTable)
         {
-            PistiGameController.Instance.ReturnObjectToPool(card);
+            GameController.Instance.ReturnPooledObject(card);
         }
         
         _cardsOnTable.Clear();

@@ -16,9 +16,9 @@ namespace BotStrategy
 
         public void Play()
         {
-            var cardsOnTable = PistiGameController.Instance.GetCardsOnTable();
+            var cardsOnTable = (GameController.Instance.CurrentContext as PistiGameContext)?.GetCardsOnTable();
             var hand = _bot.GetHand();
-            Card lastCard = cardsOnTable.Count > 0 ? cardsOnTable[^1] : null;
+            Card lastCard = cardsOnTable is { Count: > 0 } ? cardsOnTable[^1] : null;
             
             if (lastCard == null)
             {
