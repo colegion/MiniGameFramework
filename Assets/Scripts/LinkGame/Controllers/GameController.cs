@@ -10,7 +10,6 @@ using ScriptableObjects.Level;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Grid = GridSystem.Grid;
-using PoolController = PistiGame.PoolController;
 
 namespace Controllers
 {

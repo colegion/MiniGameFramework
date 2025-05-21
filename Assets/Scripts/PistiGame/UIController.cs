@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using Helpers;
+using PistiGame;
 using PistiGame.Helpers;
 using TMPro;
 using UnityEngine;

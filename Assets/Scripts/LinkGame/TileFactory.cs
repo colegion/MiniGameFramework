@@ -6,7 +6,7 @@ using Interfaces;
 using Pool;
 using ScriptableObjects.Chip;
 using UnityEngine;
-using PoolController = PistiGame.PoolController;
+using PoolController = Pool.PoolController;
 
 public class TileFactory : MonoBehaviour, IInjectable
 {

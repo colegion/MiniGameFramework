@@ -6,7 +6,6 @@ using Pool;
 using ScriptableObjects.Level;
 using UnityEngine;
 using UnityEngine.UI;
-using PoolController = PistiGame.PoolController;
 
 namespace UI
 {

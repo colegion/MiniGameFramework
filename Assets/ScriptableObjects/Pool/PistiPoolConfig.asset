@@ -10,12 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d46f5d7fd2c35c42b4bd18e27b35e1d, type: 3}
-  m_Name: GlobalPoolConfig
+  m_Name: PistiPoolConfig
   m_EditorClassIdentifier: 
   poolConfigs:
-  - poolItemType: 0
-    poolCount: 150
-  - poolItemType: 1
-    poolCount: 5
-  - poolItemType: 2
-    poolCount: 25
+  - poolItemType: 3
+    poolCount: 40

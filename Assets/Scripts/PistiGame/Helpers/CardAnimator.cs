@@ -80,7 +80,7 @@ namespace Helpers
             {
                 Camera.main.transform.DOShakePosition(0.2f, 0.25f, 15);
                 face.DOColor(new Color(1f, 1f, 1f, 150 / 255f), 0.3f).SetEase(Ease.OutBack);
-                face.color = Color.white;
+                face.color = new Color(1f, 1f, 1f, 1f);
                 foreach (var card in cards)
                 {
                     PistiGameController.Instance.ReturnObjectToPool(card);
