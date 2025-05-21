@@ -7,6 +7,7 @@ using Interfaces;
 using Pool;
 using UnityEngine;
 using Grid = GridSystem.Grid;
+using PoolController = PistiGame.PoolController;
 
 public class Bootstrapper : MonoBehaviour
 {

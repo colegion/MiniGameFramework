@@ -1,0 +1,118 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4671868045609080366
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3250840693748919780}
+  - component: {fileID: 5371504071346074471}
+  m_Layer: 0
+  m_Name: Utilities
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3250840693748919780
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4671868045609080366}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5371504071346074471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4671868045609080366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c252e150a4343409bf336530585acf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardSprites:
+  - suit: 1
+    defaultSuitSprite: {fileID: 21300000, guid: 7618e6686da736d4c8dc818f2e2cdfae,
+      type: 3}
+    faceCards:
+    - value: 11
+      sprite: {fileID: 21300000, guid: 7ce149b29c0ccb941914a9b584ceaf8d, type: 3}
+    - value: 12
+      sprite: {fileID: 21300000, guid: 2daeea0ec0bd5554d9cb9dd69969d61e, type: 3}
+    - value: 13
+      sprite: {fileID: 21300000, guid: 0848fffd8b02b6247b6620048bc32846, type: 3}
+  - suit: 2
+    defaultSuitSprite: {fileID: 21300000, guid: 381b53c099e21ae4b8e490feb80716f8,
+      type: 3}
+    faceCards:
+    - value: 11
+      sprite: {fileID: 21300000, guid: c60e34bc6d2b2d442a5b052c85777b4e, type: 3}
+    - value: 12
+      sprite: {fileID: 21300000, guid: 1fad107c5a22cd346853a28f3ed86ca8, type: 3}
+    - value: 13
+      sprite: {fileID: 21300000, guid: 1e2faf8139eef844aa3baae4450a82ac, type: 3}
+  - suit: 3
+    defaultSuitSprite: {fileID: 21300000, guid: b2a9402010c877248b2446c03e3d0609,
+      type: 3}
+    faceCards:
+    - value: 11
+      sprite: {fileID: 21300000, guid: 3061ebe549b159f49a1e157531f225d9, type: 3}
+    - value: 12
+      sprite: {fileID: 21300000, guid: 4a28d01fc53b41640844d92177b40212, type: 3}
+    - value: 13
+      sprite: {fileID: 21300000, guid: 882a82c8567c7de4e83bc3685fe2dfde, type: 3}
+  - suit: 4
+    defaultSuitSprite: {fileID: 21300000, guid: a89fe9c5da0e2d9479db2d4d53cd4325,
+      type: 3}
+    faceCards:
+    - value: 11
+      sprite: {fileID: 21300000, guid: 7daccaf44b37364468d9d30151ecc9bf, type: 3}
+    - value: 12
+      sprite: {fileID: 21300000, guid: cbd1f07d3ffbcb342ac36ad2b459d70d, type: 3}
+    - value: 13
+      sprite: {fileID: 21300000, guid: a0d609e26c0a00747b910361cb64210e, type: 3}
+  rewardedCards:
+  - cardSuit: 1
+    cardValue: 1
+    point: 1
+  - cardSuit: 2
+    cardValue: 1
+    point: 1
+  - cardSuit: 3
+    cardValue: 1
+    point: 1
+  - cardSuit: 4
+    cardValue: 1
+    point: 1
+  - cardSuit: 1
+    cardValue: 2
+    point: 2
+  - cardSuit: 2
+    cardValue: 10
+    point: 3
+  - cardSuit: 1
+    cardValue: 11
+    point: 1
+  - cardSuit: 2
+    cardValue: 11
+    point: 1
+  - cardSuit: 3
+    cardValue: 11
+    point: 1
+  - cardSuit: 4
+    cardValue: 11
+    point: 1
