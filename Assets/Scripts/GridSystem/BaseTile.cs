@@ -26,6 +26,7 @@ namespace GridSystem
         
         protected Vector2Int _position;
         private TileData _tileData;
+        private ITileTracker _tileTracker;
     
         public virtual void ConfigureSelf(ChipConfig config, int x, int y)
         {
@@ -36,9 +37,9 @@ namespace GridSystem
             tileView.SetSprite(config.chipSprite);
             ConfigureTileData();
 
-            if(Grid == null) Grid = ServiceLocator.Get<Grid>();
+            EnsureDependencies();
             Grid.PlaceTileToParentCell(this);
-            GameController.Instance.AppendLevelTiles(_tileData);
+            _tileTracker.AppendTileData(_tileData);
         }
     
         public void OnTap()
@@ -55,7 +56,7 @@ namespace GridSystem
         {
             tileView.Disappear(() =>
             {
-                GameController.Instance.ReturnPooledObject(this);
+                _tileTracker.ReturnTileToPool(this);
             });
         }
 
@@ -85,13 +86,14 @@ namespace GridSystem
 
         public void SetPosition(Vector2Int position)
         {
-            GameController.Instance.RemoveDataFromLevelTiles(_tileData);
+            EnsureDependencies();
+            _tileTracker.RemoveTileData(_tileData);
             Grid.ClearTileOfParentCell(this);
             _position = position;
             _x = _position.x;
             _y = _position.y;
             ConfigureTileData();
-            GameController.Instance.AppendLevelTiles(_tileData);
+            _tileTracker.AppendTileData(_tileData);
         }
 
         public void HighlightView(HighlightType type)
@@ -111,13 +113,21 @@ namespace GridSystem
 
         protected virtual void ResetSelf()
         {
-            GameController.Instance.RemoveDataFromLevelTiles(_tileData);
+            _tileTracker.RemoveTileData(_tileData);
             Grid.ClearTileOfParentCell(this);
             tileView.ResetSelf();
             tileView.ToggleVisuals(false);
             _position = Vector2Int.zero;
             _tileData = null;
             gameObject.SetActive(false);
+        }
+        
+        private void EnsureDependencies()
+        {
+            Grid ??= ServiceLocator.Get<Grid>();
+
+            if (_tileTracker == null && GameController.Instance.CurrentContext is ITileTracker tracker)
+                _tileTracker = tracker;
         }
 
         public Vector2Int GetPosition()

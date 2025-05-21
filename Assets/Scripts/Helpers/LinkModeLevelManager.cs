@@ -3,6 +3,7 @@ using System.IO;
 using Controllers;
 using UnityEngine;
 using GridSystem;
+using LinkGame;
 using LinkGame.Controllers;
 using Pool;
 using ScriptableObjects;
@@ -11,7 +12,7 @@ using Grid = GridSystem.Grid;
 
 namespace Helpers
 {
-    public class LevelManager
+    public class LinkModeLevelManager
     {
         private const string DarkCellPath = "Prefabs/BaseCell";
         private const string LightCellPath = "Prefabs/BaseCell";
@@ -20,9 +21,11 @@ namespace Helpers
         private const string PersistentLevelFileName = "CurrentLevel.json";
 
         private readonly Transform _parent;
+        private readonly LinkGameContext _context;
 
-        public LevelManager(Transform parent)
+        public LinkModeLevelManager(Transform parent, LinkGameContext context)
         {
+            _context = context;
             _parent = parent;
             LoadLevel();
         }
@@ -125,7 +128,7 @@ namespace Helpers
             foreach (var data in levelData.tiles)
             {
                 var tile = tileFactory.SpawnTileByConfig();
-                tile.transform.SetParent(GameController.Instance.GetPuzzleParent());
+                tile.transform.SetParent(_context.GetPuzzleParent());
                 tile.ConfigureSelf(configManager.GetItemConfig(data.chipType), data.xCoord,
                     data.yCoord);
                 tile.SetTransform();
@@ -134,8 +137,8 @@ namespace Helpers
 
         public void GenerateDefaultBoard()
         {
-            int width = GameController.Instance.GridWidth;
-            int height = GameController.Instance.GridHeight;
+            int width = _context.GridWidth;
+            int height = _context.GridHeight;
 
             CreateCells(width, height);
             CreateRandomBoard(width, height);
@@ -182,7 +185,7 @@ namespace Helpers
                 {
                     var randomConfig = configManager.GetRandomConfig();
                     var tile = tileFactory.SpawnTileByConfig();
-                    tile.transform.SetParent(GameController.Instance.GetPuzzleParent());
+                    tile.transform.SetParent(_context.GetPuzzleParent());
                     tile.ConfigureSelf(randomConfig, i, j);
                     tile.SetTransform();
                 }

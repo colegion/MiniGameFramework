@@ -5,6 +5,7 @@ using Helpers;
 using Interfaces;
 using LinkGame.Controllers;
 using Pool;
+using ScriptableObjects.Level;
 using UnityEngine;
 using Grid = GridSystem.Grid;
 
@@ -12,26 +13,21 @@ namespace LinkGame
 {
     public class LinkBootstrapper : BaseBootstrapper
     {
-        private void Awake()
-        {
-            StartCoroutine(InitializeDependencies());
-        }
+        [SerializeField] private LevelConfig levelConfig;
+        [SerializeField] private Transform puzzleParent;
+        [SerializeField] private CameraController cameraController;
+        [SerializeField] private LinkInputController inputController;
 
         public override IEnumerator InitializeDependencies()
         {
             var configManager = FindObjectOfType<ChipConfigManager>();
-            while (!configManager.IsReady) 
-            {
+            while (!configManager.IsReady)
                 yield return null;
-            }
-        
-            ServiceLocator.Register(configManager);
 
+            ServiceLocator.Register(configManager);
             Debug.Log("Bootstrapper: Registering dependencies...");
 
-            var grid = new Grid(GameController.Instance.GridWidth, GameController.Instance.GridHeight);
-            ServiceLocator.Register(grid);
-
+            // Register runtime dependencies
             var poolController = FindObjectOfType<PoolController>();
             var tileFactory = FindObjectOfType<TileFactory>();
             var highlightController = FindObjectOfType<TileHighlightController>();
@@ -39,7 +35,7 @@ namespace LinkGame
             var fallController = FindObjectOfType<TileFallController>();
             var fillController = FindObjectOfType<TileFillController>();
             var shuffleManager = FindObjectOfType<ShuffleController>();
-        
+
             ServiceLocator.Register(poolController);
             ServiceLocator.Register(tileFactory);
             ServiceLocator.Register(highlightController);
@@ -47,14 +43,19 @@ namespace LinkGame
             ServiceLocator.Register(fallController);
             ServiceLocator.Register(fillController);
             ServiceLocator.Register(shuffleManager);
-        
-            foreach (var injectable in FindObjectsOfType<MonoBehaviour>().OfType<IInjectable>())
-            {
-                injectable.InjectDependencies();
-            }
 
+            // Create and register grid before context
+            var tempContext = new LinkGameContext(levelConfig, puzzleParent, cameraController, inputController);
+            var grid = new Grid(tempContext.GridWidth, tempContext.GridHeight);
+            ServiceLocator.Register(grid);
+
+            // Inject other dependencies
+            foreach (var injectable in FindObjectsOfType<MonoBehaviour>().OfType<IInjectable>())
+                injectable.InjectDependencies();
+
+            // Set context
+            GameController.Instance.SetGameContext(tempContext);
             Debug.Log("Bootstrapper: Dependencies injected, loading level...");
-            GameController.Instance.LoadFields();
         }
     }
 }

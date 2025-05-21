@@ -49,16 +49,16 @@ namespace UI
 
         private void AddListeners()
         {
-            GameController.OnLevelLoaded += HandleOnLevelLoaded;
-            GameController.OnSuccessfulMove += HandleOnMove;
-            GameController.OnGameOver += HandleOnGameOver;
+            //LinkGameController.OnLevelLoaded += HandleOnLevelLoaded;
+            //LinkGameController.OnSuccessfulMove += HandleOnMove;
+            //LinkGameController.OnGameOver += HandleOnGameOver;
         }
         
         private void RemoveListeners()
         {
-            GameController.OnLevelLoaded -= HandleOnLevelLoaded;
-            GameController.OnSuccessfulMove -= HandleOnMove;
-            GameController.OnGameOver -= HandleOnGameOver;
+            //LinkGameController.OnLevelLoaded -= HandleOnLevelLoaded;
+            //LinkGameController.OnSuccessfulMove -= HandleOnMove;
+            //LinkGameController.OnGameOver -= HandleOnGameOver;
         }
     }
 }

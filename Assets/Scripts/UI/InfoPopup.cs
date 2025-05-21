@@ -23,7 +23,7 @@ namespace UI
         
         private void Restart()
         {
-            GameController.Instance.RestartLevel();
+            GameController.Instance.CurrentContext.Cleanup();
             gameObject.SetActive(false);
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GridSystem;
 using Helpers;
 using Interfaces;
+using LinkGame;
 using LinkGame.Controllers;
 using Pool;
 using UnityEngine;
@@ -42,7 +43,7 @@ namespace Controllers
                     if (newTile != null)
                     {
                         int targetZ = emptyRowIndex;
-                        var parent = GameController.Instance.GetPuzzleParent();
+                        var parent = (GameController.Instance.CurrentContext as LinkGameContext)?.GetPuzzleParent();
                         newTile.transform.SetParent(parent);
                         newTile.ConfigureSelf(_configManager.GetRandomConfig(), column, targetZ);
                         var topmostCell = _grid.GetCell(column, _grid.Height-1);

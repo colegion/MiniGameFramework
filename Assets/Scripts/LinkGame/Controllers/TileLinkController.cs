@@ -4,6 +4,7 @@ using System.Linq;
 using GridSystem;
 using Helpers;
 using Interfaces;
+using LinkGame;
 using LinkGame.Controllers;
 using ScriptableObjects.Level;
 using UnityEngine;
@@ -28,7 +29,7 @@ namespace Controllers
             }
 
             if(_currentLink.Count > 0)
-                GameController.Instance.HighlightAdjacentTiles(_currentLink[^1] as BaseTile);
+                (GameController.Instance.CurrentContext as LinkGameContext)?.HighlightAdjacentTiles(_currentLink[^1] as BaseTile);
         }
 
         public bool IsLinkProcessable()

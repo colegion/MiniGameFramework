@@ -5,22 +5,23 @@ using Controllers;
 using GridSystem;
 using Helpers;
 using Interfaces;
+using LinkGame.Controllers;
 using Pool;
 using ScriptableObjects.Level;
+using Unity.VisualScripting;
 using UnityEngine;
 using Grid = GridSystem.Grid;
 
-namespace LinkGame.Controllers
+namespace LinkGame
 {
-    public class GameController : MonoBehaviour
+    public class LinkGameContext : IGameContext, ITileTracker
     {
-        [SerializeField] private LevelConfig levelConfig;
-        [SerializeField] private Transform puzzleParent;
-        [SerializeField] private CameraController cameraController;
-        [SerializeField] private InputController inputController;
-
-        private PoolController _poolController;
-        private LevelManager _levelManager;
+        private readonly LevelConfig _levelConfig;
+        private readonly Transform _puzzleParent;
+        private readonly CameraController _cameraController;
+        private readonly LinkInputController _linkInputController;
+        
+        private LinkModeLevelManager _linkModeLevelManager;
         private LinkSearcher _linkSearcher;
         private ShuffleController _shuffleController;
         private LevelProgressTracker _tracker;
@@ -30,55 +31,66 @@ namespace LinkGame.Controllers
         private TileFillController _fillController;
 
         private List<TileData> _levelTiles = new();
-
-        private static GameController _instance;
-
-        public static GameController Instance
-        {
-            get { return _instance; }
-        }
-
-        public int GridWidth => levelConfig.boardWidth;
-        public int GridHeight => levelConfig.boardHeight;
-
+        
+        public int GridWidth => _levelConfig.boardWidth;
+        public int GridHeight => _levelConfig.boardHeight;
+        
         public static event Action<LevelConfig> OnLevelLoaded;
         public static event Action<LevelTargetConfig> OnSuccessfulMove;
         public static event Action<bool> OnGameOver;
 
-        private void Awake()
+        public LinkGameContext(LevelConfig config, Transform parent, CameraController camera, LinkInputController linkInput)
         {
-            if (_instance == null)
-            {
-                _instance = this;
-                DontDestroyOnLoad(this);
-            }
-            else if (_instance != this)
-            {
-                Destroy(gameObject);
-            }
+            _levelConfig = config;
+            _puzzleParent = parent;
+            _cameraController = camera;
+            _linkInputController = linkInput;
         }
 
-        public void LoadFields()
+        public void Initialize()
         {
-            _poolController = ServiceLocator.Get<PoolController>();
-            _poolController.Initialize();
-            cameraController.SetGridSize(GridWidth, GridHeight);
+            _cameraController.SetGridSize(_levelConfig.boardWidth, _levelConfig.boardHeight);
             _linkController = ServiceLocator.Get<TileLinkController>();
             _fallController = ServiceLocator.Get<TileFallController>();
             _fillController = ServiceLocator.Get<TileFillController>();
             _highlightController = ServiceLocator.Get<TileHighlightController>();
+            _shuffleController = ServiceLocator.Get<ShuffleController>();
+
             _linkSearcher = new LinkSearcher();
             ServiceLocator.Register(_linkSearcher);
-            _shuffleController = ServiceLocator.Get<ShuffleController>();
-            _levelManager = new LevelManager(puzzleParent);
-            _tracker = new LevelProgressTracker(levelConfig);
-            inputController.ToggleInput(true);
-            OnLevelLoaded?.Invoke(levelConfig);
+
+            _linkModeLevelManager = new LinkModeLevelManager(_puzzleParent, this);
+            _tracker = new LevelProgressTracker(_levelConfig);
+
+            OnLevelLoaded?.Invoke(_levelConfig);
         }
 
-        public void ReturnPooledObject(IPoolable poolObject)
+        public void StartGame()
         {
-            _poolController.ReturnPooledObject(poolObject);
+            _linkInputController.ToggleInput(true);
+            _linkModeLevelManager.CreateRandomBoard(_levelConfig.boardWidth, _levelConfig.boardHeight);
+        }
+
+        public void EndGame()
+        {
+            _linkInputController.ToggleInput(false);
+            _linkModeLevelManager.ClearProgress();
+            OnGameOver?.Invoke(true); // todo: true should change
+        }
+
+        public void Cleanup()
+        {
+            /*_levelConfig.moveLimit = _tracker.GetRemainingMoves();
+            _levelConfig.levelTargets = _tracker.GetRemainingTargets();
+
+            var levelData = new LevelData
+            {
+                levelConfig = _levelConfig,
+                tiles = _levelTiles
+            };
+
+            _linkModeLevelManager.SaveLevel(levelData);*/
+            RestartLevel();
         }
 
         public void TryAppendToCurrentLink(ITappable tappable)
@@ -93,16 +105,16 @@ namespace LinkGame.Controllers
 
         public void HandleOnRelease()
         {
-            StartCoroutine(HandleOnReleaseRoutine());
+            RoutineHelper.Instance.StartRoutine(HandleOnReleaseRoutine());
         }
 
         private IEnumerator HandleOnReleaseRoutine()
         {
             if (!_linkController.IsLinkProcessable()) yield break;
 
-            inputController.ToggleInput(false);
-
+            _linkInputController.ToggleInput(false);
             _highlightController.ClearPreviousHighlights();
+
             _fallController.FillFallConfig(_linkController.GetCurrentLink());
 
             bool linkProcessed = false;
@@ -122,11 +134,11 @@ namespace LinkGame.Controllers
                 }
             });
 
-            if (!linkProcessed)
-                yield break;
+            if (!linkProcessed) yield break;
 
             _fallController.TriggerDrop();
             yield return new WaitForSeconds(0.3f);
+
             _fillController.TriggerFillProcess(_fallController.GetEmptyRowsByColumn());
             yield return new WaitForSeconds(0.3f);
 
@@ -136,48 +148,16 @@ namespace LinkGame.Controllers
                 yield return new WaitForSeconds(0.5f);
             }
 
-            inputController.ToggleInput(true);
+            _linkInputController.ToggleInput(true);
         }
-
-
-        public void AppendLevelTiles(TileData data)
-        {
-            _levelTiles.Add(data);
-        }
-
-        public void RemoveDataFromLevelTiles(TileData data)
-        {
-            _levelTiles.Remove(data);
-        }
-
-        private void OnDestroy()
-        {
-            levelConfig.moveLimit = _tracker.GetRemainingMoves();
-            levelConfig.levelTargets = _tracker.GetRemainingTargets();
-
-            var levelData = new LevelData
-            {
-                levelConfig = levelConfig,
-                tiles = _levelTiles
-            };
-
-            _levelManager.SaveLevel(levelData);
-        }
-
-        public void OnLevelFinished(bool isSuccess)
-        {
-            inputController.ToggleInput(false);
-            _levelManager.ClearProgress();
-            OnGameOver?.Invoke(isSuccess);
-        }
-
+        
         public void RestartLevel()
         {
             _levelTiles.Clear();
-            Transform[] children = new Transform[puzzleParent.childCount];
+            Transform[] children = new Transform[_puzzleParent.childCount];
             for (int i = 0; i < children.Length; i++)
             {
-                children[i] = puzzleParent.GetChild(i);
+                children[i] = _puzzleParent.GetChild(i);
             }
 
             foreach (Transform child in children)
@@ -185,32 +165,34 @@ namespace LinkGame.Controllers
                 var poolable = child.GetComponent<BaseTile>();
                 if (poolable != null)
                 {
-                    ReturnPooledObject(poolable);
+                    GameController.Instance.ReturnPooledObject(poolable);
                 }
             }
             
             ServiceLocator.Get<Grid>().Clear();
             _tracker.Reset();
-            _levelManager.CreateRandomBoard(GridWidth, GridHeight);
-            inputController.ToggleInput(true);
-            OnLevelLoaded?.Invoke(levelConfig);
+            _linkModeLevelManager.CreateRandomBoard(GridWidth, GridHeight);
+            _linkInputController.ToggleInput(true);
+            OnLevelLoaded?.Invoke(_levelConfig);
         }
 
+        public void AppendTileData(TileData data) => _levelTiles.Add(data);
+        public void RemoveTileData(TileData data) => _levelTiles.Remove(data);
+        public void ReturnTileToPool(BaseTile tile)
+        {
+            GameController.Instance.PoolController.ReturnPooledObject(tile);
+        }
+        
         public Transform GetPuzzleParent()
         {
-            return puzzleParent;
+            return _puzzleParent;
         }
-
-        [ContextMenu("is link possible")]
-        public void TestLinkSearcher()
+        
+        public void OnLevelFinished(bool isSuccess)
         {
-            Debug.Log("Link possible? : " + _linkSearcher.HasPossibleLink());
-        }
-
-        [ContextMenu("shuffle")]
-        public void TestShuffle()
-        {
-            _shuffleController.TriggerShuffle();
+            _linkInputController.ToggleInput(false);
+            _linkModeLevelManager.ClearProgress();
+            OnGameOver?.Invoke(isSuccess);
         }
     }
 }

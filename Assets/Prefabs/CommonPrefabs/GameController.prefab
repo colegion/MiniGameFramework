@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1271657307471945362}
-  - component: {fileID: 5330403772977953965}
+  - component: {fileID: -3290823279244777827}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5330403772977953965
+--- !u!114 &-3290823279244777827
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,11 +41,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5304384764511819178}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 446ec7fc3df7c9641a234bf30bb1a307, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ff3cfb1608a9a74d893fd4eeb779214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelConfig: {fileID: 11400000, guid: 431ffbd00eff43041bb0bfb3844ebdab, type: 2}
-  puzzleParent: {fileID: 1271657307471945362}
-  cameraController: {fileID: 0}
-  poolController: {fileID: 0}
-  inputController: {fileID: 0}

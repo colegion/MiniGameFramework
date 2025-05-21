@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Controllers;
+using LinkGame;
 using LinkGame.Controllers;
 using ScriptableObjects.Level;
+using UnityEngine;
 
 namespace Helpers
 {
@@ -36,13 +38,19 @@ namespace Helpers
                 target.count = Math.Max(0, target.count - move.count);
             }
 
+            var context = GameController.Instance.CurrentContext as LinkGameContext;
+            if (context == null)
+            {
+                Debug.LogError("Context is null!");
+                return;
+            }
             if (CheckIfLevelCompleted())
             {
-                GameController.Instance.OnLevelFinished(true);
+                context.OnLevelFinished(true);
             }
             else if (_remainingMoves <= 0)
             {
-                GameController.Instance.OnLevelFinished(false);
+                context.OnLevelFinished(false);
             }
         }
 
