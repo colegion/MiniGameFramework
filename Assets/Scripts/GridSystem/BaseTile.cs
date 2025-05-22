@@ -3,6 +3,7 @@ using Helpers;
 using Interfaces;
 using LinkGame;
 using LinkGame.Controllers;
+using LinkGame.LevelDesign;
 using ScriptableObjects.Chip;
 using UnityEngine;
 
@@ -28,6 +29,8 @@ namespace GridSystem
         protected Vector2Int _position;
         private TileData _tileData;
         private ITileTracker _tileTracker;
+        
+        public TileData TileData => _tileData;
     
         public virtual void ConfigureSelf(ChipConfig config, int x, int y)
         {
@@ -102,7 +105,7 @@ namespace GridSystem
             tileView.HighlightSelf(type);
         }
 
-        private void ConfigureTileData()
+        public void ConfigureTileData()
         {
             _tileData = new TileData()
             {
@@ -114,7 +117,7 @@ namespace GridSystem
 
         protected virtual void ResetSelf()
         {
-            _tileTracker.RemoveTileData(_tileData);
+            if(_tileTracker != null) _tileTracker.RemoveTileData(_tileData);
             Grid.ClearTileOfParentCell(this);
             tileView.ResetSelf();
             tileView.ToggleVisuals(false);
@@ -126,7 +129,7 @@ namespace GridSystem
         private void EnsureDependencies()
         {
             Grid ??= ServiceLocator.Get<Grid>();
-
+            
             if (_tileTracker == null && GameController.Instance.CurrentContext is ITileTracker tracker)
                 _tileTracker = tracker;
         }

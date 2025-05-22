@@ -1,16 +1,9 @@
-using System.Collections.Generic;
 using System.IO;
-using Controllers;
-using UnityEngine;
 using GridSystem;
-using LinkGame;
-using LinkGame.Controllers;
-using Pool;
-using ScriptableObjects;
-using UnityEngine.SceneManagement;
-using Grid = GridSystem.Grid;
+using Helpers;
+using UnityEngine;
 
-namespace Helpers
+namespace LinkGame.Helpers
 {
     public class LinkModeLevelManager
     {
@@ -31,7 +24,7 @@ namespace Helpers
         }
 
         #region Public Methods
-        
+
         public void SaveLevel(LevelData levelData)
         {
             string directory = Path.Combine(Application.persistentDataPath, PersistentLevelFolder);
@@ -51,7 +44,7 @@ namespace Helpers
         #endregion
 
         #region Private Methods
-        
+
         private void LoadLevel()
         {
             LevelData levelData = TryLoadFromPersistentPath() ?? TryLoadFromResources();
@@ -124,7 +117,7 @@ namespace Helpers
 
             var tileFactory = ServiceLocator.Get<TileFactory>();
             var configManager = ServiceLocator.Get<ChipConfigManager>();
-            
+
             foreach (var data in levelData.tiles)
             {
                 var tile = tileFactory.SpawnTileByConfig();
@@ -155,22 +148,7 @@ namespace Helpers
                 return;
             }
 
-            float xOffset = width / 2f;
-            float yOffset = height / 2f;
-
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    var prefab = (x + y) % 2 == 0 ? lightPrefab : darkPrefab;
-
-                    Vector3 cellPosition = new Vector3(x - xOffset, 0, y - yOffset);
-                    var cell = Object.Instantiate(prefab, cellPosition, prefab.transform.rotation, _parent);
-
-                    cell.ConfigureSelf(x, y);
-                }
-            }
-
+            BoardUtility.CreateCells(width, height, _parent, lightPrefab, darkPrefab);
             Debug.Log($"[LevelManager] Created {width}x{height} grid of cells.");
         }
 
@@ -178,7 +156,7 @@ namespace Helpers
         {
             var tileFactory = ServiceLocator.Get<TileFactory>();
             var configManager = ServiceLocator.Get<ChipConfigManager>();
-            
+
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
@@ -191,7 +169,7 @@ namespace Helpers
                 }
             }
         }
-        
+
         public void ClearProgress()
         {
             string path = Path.Combine(Application.persistentDataPath, PersistentLevelFolder, PersistentLevelFileName);
@@ -206,7 +184,6 @@ namespace Helpers
                 Debug.Log("[LevelManager] No saved level to clear.");
             }
         }
-
 
         #endregion
     }

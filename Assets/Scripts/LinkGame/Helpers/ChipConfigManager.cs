@@ -1,14 +1,11 @@
-using System;
 using System.Collections.Generic;
-using LinkGame;
-using ScriptableObjects;
+using Helpers;
 using ScriptableObjects.Chip;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using Random = System.Random;
 
-namespace Helpers
+namespace LinkGame.Helpers
 {
     public class ChipConfigManager : MonoBehaviour
     {

@@ -1,0 +1,33 @@
+using GridSystem;
+using Helpers;
+using ScriptableObjects.Chip;
+using UnityEngine;
+using Grid = GridSystem.Grid;
+
+namespace LinkGame.LevelDesign
+{
+    public class EditorTile : BaseTile
+    {
+        public override void ConfigureSelf(ChipConfig config, int x, int y)
+        {
+            _x = x;
+            _y = y;
+            _chipType = config.chipType;
+            _position = new Vector2Int(x, y);
+            
+            tileView.SetSprite(config.chipSprite);
+            
+            var grid = ServiceLocator.Get<Grid>();
+            grid.PlaceTileToParentCell(this);
+            
+            var cell = grid.GetCell(x, y);
+            if (cell != null)
+            {
+                transform.position = cell.GetWorldPosition();
+                cell.SetTile(this);
+            }
+
+            ConfigureTileData();
+        }
+    }
+}

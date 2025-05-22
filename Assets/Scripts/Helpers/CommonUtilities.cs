@@ -27,6 +27,7 @@ namespace Helpers
     public enum PoolableTypes
     {
         BaseTile,
+        EditorTile,
         TargetUIElement,
         TrailObject,
         Card

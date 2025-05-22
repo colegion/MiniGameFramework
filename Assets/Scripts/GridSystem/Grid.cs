@@ -101,6 +101,7 @@ namespace GridSystem
 
             Debug.Log("[Grid] Cleared all tile references in the grid.");
         }
+        public BaseCell[,] GetBoard() => _board;
 
         public bool IsCoordinateValid(int x, int y) => x >= 0 && x < Width && y >= 0 && y < Height;
 
