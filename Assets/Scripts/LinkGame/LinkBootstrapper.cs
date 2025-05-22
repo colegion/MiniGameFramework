@@ -8,13 +8,14 @@ using LinkGame.Controllers;
 using Pool;
 using ScriptableObjects.Level;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Grid = GridSystem.Grid;
 
 namespace LinkGame
 {
     public class LinkBootstrapper : BaseBootstrapper
     {
-        [SerializeField] private LevelConfig levelConfig;
+        [FormerlySerializedAs("levelConfig")] [SerializeField] private LinkLevelConfig linkLevelConfig;
         [SerializeField] private Transform puzzleParent;
         [SerializeField] private CameraController cameraController;
         [SerializeField] private LinkInputController inputController;
@@ -51,7 +52,7 @@ namespace LinkGame
             ServiceLocator.Register(shuffleManager);
 
             // Create and register grid before context
-            var tempContext = new LinkGameContext(levelConfig, puzzleParent, cameraController, inputController);
+            var tempContext = new LinkGameContext(linkLevelConfig, puzzleParent, cameraController, inputController);
             var grid = new Grid(tempContext.GridWidth, tempContext.GridHeight);
             ServiceLocator.Register(grid);
 

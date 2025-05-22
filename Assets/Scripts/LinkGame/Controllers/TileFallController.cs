@@ -7,7 +7,7 @@ using Interfaces;
 using UnityEngine;
 using Grid = GridSystem.Grid;
 
-namespace Controllers
+namespace LinkGame.Controllers
 {
     public class TileFallController : MonoBehaviour, IInjectable
     {
@@ -57,7 +57,7 @@ namespace Controllers
                     }
                     else
                     {
-                        BaseTile tile = _grid.GetCell(column, y)?.GetTile(Utilities.DefaultChipLayer);
+                        BaseTile tile = _grid.GetCell(column, y)?.GetTile(LinkUtilities.DefaultChipLayer);
                         if (tile != null && emptyBelow > 0)
                         {
                             tile.UpdatePosition(new Vector2Int(column, y - emptyBelow));

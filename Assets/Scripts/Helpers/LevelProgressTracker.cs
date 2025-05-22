@@ -11,14 +11,14 @@ namespace Helpers
 {
     public class LevelProgressTracker
     {
-        private LevelConfig _config;
+        private LinkLevelConfig _config;
         private List<LevelTargetConfig> _targets;
         private int _remainingMoves;
 
-        public LevelProgressTracker(LevelConfig config)
+        public LevelProgressTracker(LinkLevelConfig config)
         {
             _config = config;
-            _targets = LevelConfig.MergeDuplicateTargets(config.levelTargets)
+            _targets = LinkLevelConfig.MergeDuplicateTargets(config.levelTargets)
                 .Select(t => new LevelTargetConfig
                 {
                     targetType = t.targetType,
@@ -62,7 +62,7 @@ namespace Helpers
         public void Reset()
         {
             _remainingMoves = _config.moveLimit;
-            _targets = LevelConfig.MergeDuplicateTargets(_config.levelTargets)
+            _targets = LinkLevelConfig.MergeDuplicateTargets(_config.levelTargets)
                 .Select(t => new LevelTargetConfig
                 {
                     targetType = t.targetType,

@@ -7,13 +7,13 @@ using Interfaces;
 using UnityEngine;
 using Grid = GridSystem.Grid;
 
-namespace Controllers
+namespace LinkGame.Controllers
 {
     public class ShuffleController : MonoBehaviour, IInjectable
     {
         private Grid _grid;
         private LinkSearcher _linkSearcher;
-        private readonly int linkThreshold = Utilities.LinkThreshold;
+        private readonly int linkThreshold = LinkUtilities.LinkThreshold;
     
         public void InjectDependencies()
         {
@@ -40,7 +40,7 @@ namespace Controllers
                     var cell = _grid.GetCell(x, y);
                     if (cell != null)
                     {
-                        var tile = cell.GetTile(Utilities.DefaultChipLayer);
+                        var tile = cell.GetTile(LinkUtilities.DefaultChipLayer);
                         if (tile != null)
                         {
                             tiles.Add(tile);

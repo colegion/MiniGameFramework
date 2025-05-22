@@ -35,7 +35,7 @@ namespace Controllers
         public bool IsLinkProcessable()
         {
             if (_currentLink.Count == 0) return false;
-            if (_currentLink.Count < Utilities.LinkThreshold)
+            if (_currentLink.Count < LinkUtilities.LinkThreshold)
             {
                 _currentLink[^1].OnRelease();
                 _currentLink.Clear();

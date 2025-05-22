@@ -117,8 +117,8 @@ namespace Helpers
 
         private void InitializeLevel(LevelData levelData)
         {
-            int width = levelData.levelConfig.boardWidth;
-            int height = levelData.levelConfig.boardHeight;
+            int width = levelData.linkLevelConfig.boardWidth;
+            int height = levelData.linkLevelConfig.boardHeight;
 
             CreateCells(width, height);
 

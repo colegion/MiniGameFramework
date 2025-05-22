@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Helpers;
+using LinkGame;
 using UnityEngine;
 
 namespace ScriptableObjects.Level
 {
     [CreateAssetMenu(fileName = "LevelConfig", menuName = "ScriptableObjects/Level/LevelConfig")]
-    public class LevelConfig : ScriptableObject
+    public class LinkLevelConfig : ScriptableObject
     {
         public int boardWidth;
         public int boardHeight;

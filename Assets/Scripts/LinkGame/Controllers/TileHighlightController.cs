@@ -5,7 +5,7 @@ using Interfaces;
 using UnityEngine;
 using Grid = GridSystem.Grid;
 
-namespace Controllers
+namespace LinkGame.Controllers
 {
     public class TileHighlightController : MonoBehaviour, IInjectable
     {
@@ -27,7 +27,7 @@ namespace Controllers
                 Vector2Int checkPos = originPos + dir;
                 var cell = _grid.GetCell(checkPos.x, checkPos.y);
 
-                if (cell != null && cell.GetTile(Utilities.DefaultChipLayer) is BaseTile neighbor)
+                if (cell != null && cell.GetTile(LinkUtilities.DefaultChipLayer) is BaseTile neighbor)
                 {
                     if (neighbor.ChipType == originType)
                         neighbor.HighlightView(HighlightType.Bright);

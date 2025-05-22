@@ -1,5 +1,6 @@
 using GridSystem;
 using Helpers;
+using LinkGame;
 
 namespace Interfaces
 {

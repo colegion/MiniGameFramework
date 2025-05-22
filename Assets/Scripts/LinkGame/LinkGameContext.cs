@@ -16,7 +16,7 @@ namespace LinkGame
 {
     public class LinkGameContext : IGameContext, ITileTracker
     {
-        private readonly LevelConfig _levelConfig;
+        private readonly LinkLevelConfig _linkLevelConfig;
         private readonly Transform _puzzleParent;
         private readonly CameraController _cameraController;
         private readonly LinkInputController _linkInputController;
@@ -32,15 +32,15 @@ namespace LinkGame
 
         private List<TileData> _levelTiles = new();
         
-        public int GridWidth => _levelConfig.boardWidth;
-        public int GridHeight => _levelConfig.boardHeight;
+        public int GridWidth => _linkLevelConfig.boardWidth;
+        public int GridHeight => _linkLevelConfig.boardHeight;
         
-        public static event Action<LevelConfig> OnLevelLoaded;
+        public static event Action<LinkLevelConfig> OnLevelLoaded;
         public static event Action<LevelTargetConfig> OnSuccessfulMove;
 
-        public LinkGameContext(LevelConfig config, Transform parent, CameraController camera, LinkInputController linkInput)
+        public LinkGameContext(LinkLevelConfig config, Transform parent, CameraController camera, LinkInputController linkInput)
         {
-            _levelConfig = config;
+            _linkLevelConfig = config;
             _puzzleParent = parent;
             _cameraController = camera;
             _linkInputController = linkInput;
@@ -48,7 +48,7 @@ namespace LinkGame
 
         public void Initialize()
         {
-            _cameraController.SetGridSize(_levelConfig.boardWidth, _levelConfig.boardHeight);
+            _cameraController.SetGridSize(_linkLevelConfig.boardWidth, _linkLevelConfig.boardHeight);
             _linkController = ServiceLocator.Get<TileLinkController>();
             _fallController = ServiceLocator.Get<TileFallController>();
             _fillController = ServiceLocator.Get<TileFillController>();
@@ -59,9 +59,9 @@ namespace LinkGame
             ServiceLocator.Register(_linkSearcher);
 
             _linkModeLevelManager = new LinkModeLevelManager(_puzzleParent, this);
-            _tracker = new LevelProgressTracker(_levelConfig);
+            _tracker = new LevelProgressTracker(_linkLevelConfig);
 
-            OnLevelLoaded?.Invoke(_levelConfig);
+            OnLevelLoaded?.Invoke(_linkLevelConfig);
             StartGame();
         }
 
@@ -109,7 +109,7 @@ namespace LinkGame
 
             yield return _linkController.TriggerLinkProcess((chipType, count) =>
             {
-                if (count >= Utilities.LinkThreshold)
+                if (count >= LinkUtilities.LinkThreshold)
                 {
                     var config = new LevelTargetConfig
                     {
@@ -161,7 +161,7 @@ namespace LinkGame
             _tracker.Reset();
             _linkModeLevelManager.CreateRandomBoard(GridWidth, GridHeight);
             _linkInputController.ToggleInput(true);
-            OnLevelLoaded?.Invoke(_levelConfig);
+            OnLevelLoaded?.Invoke(_linkLevelConfig);
         }
 
         public void AppendTileData(TileData data) => _levelTiles.Add(data);

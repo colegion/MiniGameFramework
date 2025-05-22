@@ -1,6 +1,7 @@
 using Controllers;
 using Helpers;
 using Interfaces;
+using LinkGame;
 using LinkGame.Controllers;
 using ScriptableObjects.Chip;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace GridSystem
     
         protected int _x;
         protected int _y;
-        protected int _layer = Utilities.DefaultChipLayer;
+        protected int _layer = LinkUtilities.DefaultChipLayer;
         protected ChipType _chipType;
     
         public int X => _x;

@@ -2,37 +2,16 @@ using System;
 using System.Collections.Generic;
 using ScriptableObjects.Level;
 using UnityEngine;
-using UnityEngine.Tilemaps;
+using UnityEngine.Serialization;
 
-namespace Helpers
+namespace LinkGame
 {
-    public class Utilities : MonoBehaviour
+    public class LinkUtilities : MonoBehaviour
     {
         public static int LinkThreshold = 3;
         public static int DefaultChipLayer = 1;
     }
-
-    public enum GameMode
-    {
-        LinkGame,
-        CardGame
-    }
-
-    public enum SceneType
-    {
-        MainMenu,
-        LinkGame,
-        PistiGame,
-    }
     
-    public enum PoolableTypes
-    {
-        BaseTile,
-        TargetUIElement,
-        TrailObject,
-        Card
-    }
-
     public enum ChipType
     {
         Circle,
@@ -44,7 +23,7 @@ namespace Helpers
     [Serializable]
     public class LevelData
     {
-        public LevelConfig levelConfig;
+        [FormerlySerializedAs("levelConfig")] public LinkLevelConfig linkLevelConfig;
         public List<TileData> tiles;
     }
 

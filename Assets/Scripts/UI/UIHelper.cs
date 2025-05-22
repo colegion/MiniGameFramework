@@ -26,12 +26,12 @@ namespace UI
             RemoveListeners();
         }
 
-        private void HandleOnLevelLoaded(LevelConfig config)
+        private void HandleOnLevelLoaded(LinkLevelConfig config)
         {
             targetUIManager.Reset();
             _moveCount = config.moveLimit;
             moveLimitField.text = $"{_moveCount}";
-            LevelConfig.MergeDuplicateTargets(config.levelTargets);
+            LinkLevelConfig.MergeDuplicateTargets(config.levelTargets);
             targetUIManager.Initialize(config.levelTargets);
         }
 

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Helpers;
+using LinkGame;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -74,7 +75,7 @@ namespace GridSystem
             for (int row = 0; row < Height; row++)
             {
                 BaseCell cell = GetCell(column, row);
-                if (cell != null && cell.GetTile(Utilities.DefaultChipLayer) == null)
+                if (cell != null && cell.GetTile(LinkUtilities.DefaultChipLayer) == null)
                 {
                     emptyRows.Add(row);
                 }
@@ -93,7 +94,7 @@ namespace GridSystem
                     var cell = _board[x, y];
                     if (cell != null)
                     {
-                        cell.SetTileNull(Utilities.DefaultChipLayer);
+                        cell.SetTileNull(LinkUtilities.DefaultChipLayer);
                     }
                 }
             }
