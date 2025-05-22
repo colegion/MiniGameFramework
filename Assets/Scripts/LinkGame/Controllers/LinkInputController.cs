@@ -9,13 +9,13 @@ namespace LinkGame.Controllers
     {
         [SerializeField] private Camera mainCamera;
 
-        private InputMap _inputMap;
+        private LinkInputMap _inputMap;
         private ITappable _currentTapped;
         private bool _canDrag;
 
         private void Start()
         {
-            _inputMap = new InputMap();
+            _inputMap = new LinkInputMap();
             RegisterInputActions();
         }
 
