@@ -42,7 +42,7 @@ public class MainMenuUIHelper : MonoBehaviour
 
     private void RequestGame()
     {
-        var type = _selectedGameMode == GameMode.CardGame ? SceneType.PistiGame : SceneType.LinkGame;
+        var type = _selectedGameMode == GameMode.PistiGame ? SceneType.PistiGame : SceneType.LinkGame;
         SceneLoader.LoadSceneAsync(type);
     }
 

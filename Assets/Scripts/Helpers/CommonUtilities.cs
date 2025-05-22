@@ -14,7 +14,7 @@ namespace Helpers
     public enum GameMode
     {
         LinkGame,
-        CardGame
+        PistiGame
     }
 
     public enum SceneType

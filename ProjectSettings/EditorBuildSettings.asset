@@ -8,13 +8,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/LinkGame.unity
     guid: b1031fbffbe253241b6311413b30222f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PistiGame.unity
     guid: b10afa18a74ca2e47b25f86ffd401bf3
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MainMenu.unity
     guid: 4a2eae210cdc801418e2a72e8a9b0d29
   m_configObjects:

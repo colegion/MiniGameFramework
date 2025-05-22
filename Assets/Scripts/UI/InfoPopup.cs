@@ -32,7 +32,7 @@ namespace UI
         {
             switch (mode)
             {
-                case GameMode.CardGame:
+                case GameMode.PistiGame:
                     InitializeDropDown();
                     break;
             }
