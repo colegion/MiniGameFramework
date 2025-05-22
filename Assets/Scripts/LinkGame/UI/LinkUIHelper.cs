@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace UI
 {
-    public class UIHelper : MonoBehaviour
+    public class LinkUIHelper : MonoBehaviour
     {
         [SerializeField] private Canvas mainCanvas;
         [SerializeField] private TextMeshProUGUI moveLimitField;
