@@ -115,7 +115,7 @@ namespace PistiGame
             gameEnded = gameEnded && _deck.IsDeckEmpty;
             if (gameEnded)
             {
-                GameController.Instance.TriggerOnGameOver(_users.IsPlayerWinner());
+                GameController.Instance.TriggerOnGameOver(_users.IsPlayerWinner(), GameMode.CardGame);
                 return true;
             }
 

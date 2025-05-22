@@ -18,7 +18,12 @@ namespace PistiGame
 
         private BotType _botType;
 
-        public void HandleOnGameRequested()
+        private void Awake()
+        {
+            RegisterEvents();
+        }
+
+        private void HandleOnGameRequested()
         {
             StartCoroutine(InitializeDependencies());
         }
@@ -34,9 +39,36 @@ namespace PistiGame
             yield return null;
         }
 
-        public void SetBotType(BotType type)
+        private void SetBotType(BotType type)
         {
             _botType = type;
+        }
+        
+        private void OnDifficultySelectedHandler(OnDifficultySelected evt)
+        {
+            SetBotType(evt.BotType);
+        }
+
+        private void OnGameRequestHandler(OnCardGameRequested obj)
+        {
+            HandleOnGameRequested();
+        }
+        
+        private void RegisterEvents()
+        {
+            EventBus.Register<OnDifficultySelected>(OnDifficultySelectedHandler);
+            EventBus.Register<OnCardGameRequested>(OnGameRequestHandler);
+        }
+
+        private void UnRegisterEvents()
+        {
+            EventBus.Unregister<OnDifficultySelected>(OnDifficultySelectedHandler);
+            EventBus.Unregister<OnCardGameRequested>(OnGameRequestHandler);
+        }
+
+        private void OnDestroy()
+        {
+            UnRegisterEvents();
         }
     }
 }

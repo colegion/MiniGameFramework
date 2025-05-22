@@ -180,7 +180,7 @@ namespace LinkGame
         {
             _linkInputController.ToggleInput(false);
             _linkModeLevelManager.ClearProgress();
-            GameController.Instance.TriggerOnGameOver(isSuccess);
+            GameController.Instance.TriggerOnGameOver(isSuccess, GameMode.LinkGame);
             EndGame();
         }
     }

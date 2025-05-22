@@ -10,16 +10,13 @@ using UnityEngine.UI;
 
 namespace PistiGame
 {
-    public class PistiIntroPanel : MonoBehaviour
+    public class PistiUIPanel : MonoBehaviour
     {
         [SerializeField] private GameObject blackishPanel;
         [SerializeField] private TextMeshProUGUI endGameField;
         [SerializeField] private TextMeshProUGUI infoField;
         [SerializeField] private Button startGameButton;
         [SerializeField] private TMP_Dropdown botTypeDropdown;
-
-        [SerializeField] private PistiBootstrapper bootstrapper;
-
         private BotType _selectedBotType;
         private void OnEnable()
         {
@@ -39,7 +36,8 @@ namespace PistiGame
         private void RequestGame()
         {
             blackishPanel.gameObject.SetActive(false);
-            bootstrapper.HandleOnGameRequested();
+            EventBus.Trigger(new OnCardGameRequested());
+            //bootstrapper.HandleOnGameRequested();
         }
         
         private void PopulateBotDropdown()
@@ -51,7 +49,7 @@ namespace PistiGame
             botTypeDropdown.onValueChanged.AddListener(index =>
             {
                 _selectedBotType = (BotType)index;
-                bootstrapper.SetBotType(_selectedBotType);
+                EventBus.Trigger(new OnDifficultySelected(_selectedBotType));
             });
 
             _selectedBotType = (BotType)botTypeDropdown.value;

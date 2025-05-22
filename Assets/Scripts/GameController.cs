@@ -16,7 +16,7 @@ public class GameController : MonoBehaviour
     private IGameContext _currentContext;
     public IGameContext CurrentContext => _currentContext;
     
-    public static event Action<bool> OnGameOver;
+    public static event Action<bool, GameMode> OnGameOver;
 
     private void Awake()
     {
@@ -44,8 +44,8 @@ public class GameController : MonoBehaviour
         _poolController?.ReturnPooledObject(poolable);
     }
 
-    public void TriggerOnGameOver(bool isSuccess)
+    public void TriggerOnGameOver(bool isSuccess, GameMode mode)
     {
-        OnGameOver?.Invoke(isSuccess);
+        OnGameOver?.Invoke(isSuccess, mode);
     }
 }

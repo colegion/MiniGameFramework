@@ -1,4 +1,5 @@
 using System;
+using Helpers;
 using UnityEngine;
 
 namespace UI
@@ -19,15 +20,16 @@ namespace UI
             RemoveListeners();
         }
 
-        public void LoadPopup(bool isSuccess, Transform parent)
+        public void LoadPopup(bool isSuccess, GameMode mode)
         {
             var path = isSuccess ? SuccessPopupPath : FailPopupPath;
             var popupPrefab = Resources.Load<GameObject>(path);
     
             if (popupPrefab != null)
             {
-                var popupInstance = Instantiate(popupPrefab, parent);
+                var popupInstance = Instantiate(popupPrefab, mainCanvas.transform);
                 popupInstance.transform.localPosition = Vector3.zero;
+                popupInstance.GetComponent<InfoPopup>().Initialize(mode);
                 popupInstance.SetActive(true);
             }
             else
@@ -36,9 +38,9 @@ namespace UI
             }
         }
 
-        private void HandleOnGameOver(bool isSuccess)
+        private void HandleOnGameOver(bool isSuccess, GameMode mode)
         {
-            LoadPopup(isSuccess, mainCanvas.transform);
+            LoadPopup(isSuccess, mode);
         }
 
         private void AddListeners()
