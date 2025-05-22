@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace PistiGame
 {
-    public class UIController : MonoBehaviour
+    public class PistiIntroPanel : MonoBehaviour
     {
         [SerializeField] private GameObject blackishPanel;
         [SerializeField] private TextMeshProUGUI endGameField;
@@ -41,23 +41,7 @@ namespace PistiGame
             blackishPanel.gameObject.SetActive(false);
             bootstrapper.HandleOnGameRequested();
         }
-
-        private void HandleOnGameFinished(bool isWin)
-        {
-            blackishPanel.gameObject.SetActive(true);
-            endGameField.gameObject.SetActive(true);
-            if (isWin)
-            {
-                endGameField.text = "You win!";
-                endGameField.color = Color.green;
-            }
-            else
-            {
-                endGameField.text = "You lose.";
-                endGameField.color = Color.red;
-            }
-        }
-    
+        
         private void PopulateBotDropdown()
         {
             botTypeDropdown.ClearOptions();
@@ -114,7 +98,6 @@ namespace PistiGame
         private void AddListeners()
         {
             startGameButton.onClick.AddListener(RequestGame);
-            //PistiGameController.OnGameFinished += HandleOnGameFinished;
             CardDistributionState.OnRoundDistributed += AnimateOnNewRound;
             CardAnimator.OnPisti += AnimateOnPisti;
         }
@@ -122,7 +105,6 @@ namespace PistiGame
         private void RemoveListeners()
         {
             startGameButton.onClick.RemoveListener(RequestGame);
-            //PistiGameController.OnGameFinished -= HandleOnGameFinished;
             CardDistributionState.OnRoundDistributed -= AnimateOnNewRound;
             CardAnimator.OnPisti -= AnimateOnPisti;
         }

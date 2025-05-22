@@ -69,6 +69,7 @@ namespace PistiGame
             cardValue.text = "";
             cardBg.gameObject.SetActive(true);
             visuals.gameObject.SetActive(false);
+            cardFace.color = new Color(1f, 1f, 1f, 1f);
             ToggleInteractable(false);
         }
 

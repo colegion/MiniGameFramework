@@ -44,11 +44,8 @@ public class GameController : MonoBehaviour
         _poolController?.ReturnPooledObject(poolable);
     }
 
-    public void TriggerOnGameOver(bool isGameOver)
+    public void TriggerOnGameOver(bool isSuccess)
     {
-        OnGameOver?.Invoke(isGameOver);
+        OnGameOver?.Invoke(isSuccess);
     }
-
-    public void StartGame() => _currentContext?.StartGame();
-    public void EndGame() => _currentContext?.EndGame();
 }

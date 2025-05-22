@@ -24,8 +24,6 @@ namespace PistiGame
         private GameStateTypes _lastOutcomeCallerType;
         private bool _isInitialized;
         
-        public static event Action<bool> OnGameFinished;
-        
         public PistiGameContext(CardInputController cardInputController, CardAnimator cardAnimator, Table table, List<User> users)
         {
             _cardInputController = cardInputController;
@@ -117,7 +115,7 @@ namespace PistiGame
             gameEnded = gameEnded && _deck.IsDeckEmpty;
             if (gameEnded)
             {
-                OnGameFinished?.Invoke(_users.IsPlayerWinner());
+                GameController.Instance.TriggerOnGameOver(_users.IsPlayerWinner());
                 return true;
             }
 
@@ -191,7 +189,7 @@ namespace PistiGame
 
         public void Cleanup()
         {
-            
+            Initialize();
         }
     }
 }

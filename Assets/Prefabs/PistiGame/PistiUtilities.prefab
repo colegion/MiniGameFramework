@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3250840693748919780}
   - component: {fileID: 5371504071346074471}
   m_Layer: 0
-  m_Name: Utilities
+  m_Name: PistiUtilities
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
