@@ -12,8 +12,8 @@ namespace LinkGame.LevelDesign
         private LevelEditor _editor;
         public override void ConfigureSelf(ChipConfig config, int x, int y)
         {
-            _x = x;
-            _y = y;
+            X = x;
+            Y = y;
             _chipType = config.chipType;
             _position = new Vector2Int(x, y);
             

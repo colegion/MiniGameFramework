@@ -7,6 +7,8 @@ using LinkGame.Helpers;
 using LinkGame.LevelDesign;
 using ScriptableObjects.Chip;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+using TileData = LinkGame.Helpers.TileData;
 
 namespace GridSystem
 {
@@ -14,15 +16,13 @@ namespace GridSystem
     {
         [SerializeField] private Collider tileCollider;
         [SerializeField] protected TileView tileView;
-    
-        protected int _x;
-        protected int _y;
-        protected int _layer = LinkUtilities.DefaultChipLayer;
+        
         protected ChipType _chipType;
     
-        public int X => _x;
-        public int Y => _y;
-        public int Layer => _layer;
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Layer { get; set; }
+
         public ChipType ChipType => _chipType;
 
         protected Grid Grid;
@@ -35,8 +35,9 @@ namespace GridSystem
     
         public virtual void ConfigureSelf(ChipConfig config, int x, int y)
         {
-            _x = x;
-            _y = y;
+            X = x;
+            Y = y;
+            Layer = LinkUtilities.DefaultChipLayer;
             _position = new Vector2Int(x, y);
             _chipType = config.chipType;
             tileView.SetSprite(config.chipSprite);
@@ -68,14 +69,14 @@ namespace GridSystem
         public void UpdatePosition(Vector2Int position)
         {
             SetPosition(position);
-            tileView.MoveTowardsTarget(Grid.GetCell(_x, _y).GetTarget(), SetTransform);
+            tileView.MoveTowardsTarget(Grid.GetCell(X, Y).GetTarget(), SetTransform);
         }
 
         public void SetTransform()
         {
             if (Grid == null) Grid = ServiceLocator.Get<Grid>();
 
-            BaseCell cell = Grid.GetCell(_x, _y);
+            BaseCell cell = Grid.GetCell(X, Y);
             if (cell != null)
             {
                 cell.SetTile(this);
@@ -84,8 +85,8 @@ namespace GridSystem
             }
             else
             {
-                Debug.LogWarning($"Cell at {_x}, {_y} not found! Using fallback position.");
-                transform.position = new Vector3(_x, .25f, _y);
+                Debug.LogWarning($"Cell at {X}, {Y} not found! Using fallback position.");
+                transform.position = new Vector3(X, .25f, Y);
             }
         }
 
@@ -95,8 +96,8 @@ namespace GridSystem
             _tileTracker.RemoveTileData(_tileData);
             Grid.ClearTileOfParentCell(this);
             _position = position;
-            _x = _position.x;
-            _y = _position.y;
+            X = _position.x;
+            Y = _position.y;
             ConfigureTileData();
             _tileTracker.AppendTileData(_tileData);
         }
@@ -110,8 +111,8 @@ namespace GridSystem
         {
             _tileData = new TileData()
             {
-                xCoord = _x,
-                yCoord = _y,
+                xCoord = X,
+                yCoord = Y,
                 chipType = _chipType
             };
         }

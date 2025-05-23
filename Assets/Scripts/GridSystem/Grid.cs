@@ -22,6 +22,7 @@ namespace GridSystem
 
         public void PlaceCell(BaseCell cell)
         {
+            if(_board[cell.X, cell.Y] != null) return;
             _board[cell.X, cell.Y] = cell;
         }
 
