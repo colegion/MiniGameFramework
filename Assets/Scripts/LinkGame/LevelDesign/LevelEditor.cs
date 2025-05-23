@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using GridSystem;
 using Helpers;
@@ -17,21 +18,29 @@ namespace LinkGame.LevelDesign
         public int boardWidth = 5;
         public int boardHeight = 5;
         public int moveLimit = 20;
-        public Transform puzzleParent;
-        public BaseCell editorCell;
-        public PoolController poolController;
-        private LinkModeLevelManager _levelManager;
-        public ChipConfigManager chipConfigManager;
-
-
+        [HideInInspector] public Transform puzzleParent;
+        [HideInInspector] public BaseCell editorCell;
+        [HideInInspector] public PoolController poolController;
+        [HideInInspector] public ChipConfigManager chipConfigManager;
+        [HideInInspector] public CameraController cameraController;
         [HideInInspector] public EditorTile selectedTile;
 
         private Grid _grid;
+        private LinkModeLevelManager _levelManager;
 
         private void Start()
         {
             poolController.Initialize();
             _levelManager = new LinkModeLevelManager();
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                SaveLevel();
+                SceneLoader.LoadSceneAsync(SceneType.LinkGame);
+            }
         }
 
         public void GenerateBoard()
@@ -41,6 +50,7 @@ namespace LinkGame.LevelDesign
             ServiceLocator.Register(_grid);
             BoardUtility.CreateCells(boardWidth, boardHeight, puzzleParent, editorCell, editorCell, this);
             Debug.Log($"[Editor] Generated {boardWidth}x{boardHeight} board.");
+            cameraController.SetGridSize(boardWidth, boardHeight);
         }
 
         public void SpawnTileAt(int x, int y, ChipType chipType = ChipType.Circle)
@@ -87,7 +97,7 @@ namespace LinkGame.LevelDesign
                     }
                 }
 
-                _grid.Clear(); // Just clears tile references inside the grid
+                _grid.Clear();
             }
 
             for (int i = puzzleParent.childCount - 1; i >= 0; i--)
@@ -113,14 +123,13 @@ namespace LinkGame.LevelDesign
         public void SaveLevel()
         {
             var levelData = new LevelData();
-    
-            // Create serializable copy
+            
             var linkLevelConfig = new SerializableLinkLevelConfig
             {
                 boardWidth = boardWidth,
                 boardHeight = boardHeight,
-                moveLimit = moveLimit, // Replace with actual value
-                levelTargets = new List<LevelTargetConfig>() // Add if needed
+                moveLimit = moveLimit,
+                levelTargets = new List<LevelTargetConfig>()
             };
 
             levelData.linkLevelConfig = linkLevelConfig;

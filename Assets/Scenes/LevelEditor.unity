@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 251568871}
   - component: {fileID: 251568870}
   - component: {fileID: 251568873}
+  - component: {fileID: 251568874}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -259,6 +260,20 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &251568874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 251568869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03c7619eecb74154494f17872e26959d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 251568871}
+  padding: 1
 --- !u!1001 &270289641
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -385,11 +400,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boardWidth: 5
   boardHeight: 5
+  moveLimit: 20
   puzzleParent: {fileID: 1182191253}
   editorCell: {fileID: 7812102910234771050, guid: 8e4b91fbcc09ec44d906c0ad6ff922b3,
     type: 3}
   poolController: {fileID: 1945695502}
   chipConfigManager: {fileID: 270289642}
+  cameraController: {fileID: 251568874}
+  selectedTile: {fileID: 0}
 --- !u!1 &1182191252
 GameObject:
   m_ObjectHideFlags: 0

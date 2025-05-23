@@ -15,7 +15,7 @@ MonoBehaviour:
   poolConfigs:
   - poolItemType: 0
     poolCount: 150
-  - poolItemType: 1
-    poolCount: 5
   - poolItemType: 2
+    poolCount: 25
+  - poolItemType: 3
     poolCount: 25
