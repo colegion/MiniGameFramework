@@ -1,6 +1,4 @@
 using GridSystem;
-using Helpers;
-using LinkGame;
 using LinkGame.Helpers;
 
 namespace Interfaces

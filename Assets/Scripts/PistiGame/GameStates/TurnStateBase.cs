@@ -9,10 +9,10 @@ namespace PistiGame.GameStates
     {
         protected User User;
         protected PistiGameContext Context;
-        public void EnterState(PistiGameContext context)
+        public void EnterState(object context)
         {
             if(Context == null)
-                Context = context;
+                Context = context as PistiGameContext;
             if (User == null)
                 User = GetUser();
 

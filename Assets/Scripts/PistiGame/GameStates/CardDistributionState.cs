@@ -18,11 +18,11 @@ namespace PistiGame.GameStates
         public static event Action<int, Action> OnRoundDistributed;
     
         private PistiGameContext _context;
-        public void EnterState(PistiGameContext context)
+        public void EnterState(object context)
         {
             if(_context == null)
-                _context = context;
-            if (context.CheckIfGameFinished())
+                _context = context as PistiGameContext;
+            if (_context != null && _context.CheckIfGameFinished())
             {
                 return;
             }

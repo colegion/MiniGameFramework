@@ -23,13 +23,4 @@ namespace Helpers
         LinkGame,
         PistiGame,
     }
-    
-    public enum PoolableTypes
-    {
-        BaseTile,
-        EditorTile,
-        TargetUIElement,
-        TrailObject,
-        Card
-    }
 }

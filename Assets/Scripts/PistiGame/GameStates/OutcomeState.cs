@@ -9,10 +9,10 @@ namespace PistiGame.GameStates
     {
         private GameRules _gameRules;
         private PistiGameContext _context;
-        public void EnterState(PistiGameContext context)
+        public void EnterState(object context)
         {
             if (_context == null)
-                _context = context;
+                _context = context as PistiGameContext;
             if (_gameRules == null)
                 _gameRules = new GameRules();
             DecideOutcomeIfPossible();

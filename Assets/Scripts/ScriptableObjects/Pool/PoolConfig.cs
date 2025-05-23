@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Helpers;
+using Interfaces;
 using UnityEngine;
 
 namespace ScriptableObjects.Pool

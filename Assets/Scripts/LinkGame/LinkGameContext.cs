@@ -7,9 +7,7 @@ using Helpers;
 using Interfaces;
 using LinkGame.Controllers;
 using LinkGame.Helpers;
-using Pool;
 using ScriptableObjects.Level;
-using Unity.VisualScripting;
 using UnityEngine;
 using Grid = GridSystem.Grid;
 

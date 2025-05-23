@@ -1,4 +1,3 @@
-using Helpers;
 using UnityEngine;
 
 namespace Interfaces
@@ -10,5 +9,14 @@ namespace Interfaces
         public void OnReturnPool();
         public PoolableTypes GetPoolableType();
         public GameObject GetGameObject();
+    }
+    
+    public enum PoolableTypes
+    {
+        BaseTile,
+        EditorTile,
+        TargetUIElement,
+        TrailObject,
+        Card
     }
 }

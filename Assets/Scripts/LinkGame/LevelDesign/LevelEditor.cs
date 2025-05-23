@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using GridSystem;
 using Helpers;
+using Interfaces;
 using LinkGame.Helpers;
 using LinkGame.LevelDesign;
 using Pool;
