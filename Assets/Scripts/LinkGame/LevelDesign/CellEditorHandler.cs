@@ -8,7 +8,7 @@ namespace LinkGame.LevelDesign
         [SerializeField] private BaseCell cell;
         private LevelEditor _editor;
 
-        public void SetEditor(LevelEditor editor)
+        public void InjectEditor(LevelEditor editor)
         {
             _editor = editor;
         }
@@ -19,7 +19,6 @@ namespace LinkGame.LevelDesign
 
             if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log("spawn");
                 _editor.SpawnTileAt(cell.X, cell.Y);
             }
             else if (Input.GetMouseButtonDown(1))

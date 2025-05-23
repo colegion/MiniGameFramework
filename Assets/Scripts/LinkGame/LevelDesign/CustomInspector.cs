@@ -1,15 +1,14 @@
 using UnityEditor;
 using UnityEngine;
-using ScriptableObjects.Chip;  // For ChipType enum
-using LinkGame.LevelDesign;
 
 namespace LinkGame.LevelDesign
 {
     [CustomEditor(typeof(LevelEditor))]
     public class CustomInspector : Editor
     {
-        private EditorTile selectedTile;
-        private ChipType selectedChipType;
+        private EditorTile _selectedTile;
+        private ChipType _selectedChipType;
+        private LevelEditor _editor;
 
         private void OnEnable()
         {
@@ -30,14 +29,14 @@ namespace LinkGame.LevelDesign
 
         private void UpdateSelectedTile()
         {
-            selectedTile = null;
+            _selectedTile = null;
 
             if (Selection.activeGameObject != null)
             {
-                selectedTile = Selection.activeGameObject.GetComponent<EditorTile>();
-                if (selectedTile != null)
+                _selectedTile = Selection.activeGameObject.GetComponent<EditorTile>();
+                if (_selectedTile != null)
                 {
-                    selectedChipType = selectedTile.ChipType;
+                    _selectedChipType = _selectedTile.ChipType;
                 }
             }
         }
@@ -50,15 +49,8 @@ namespace LinkGame.LevelDesign
 
             GUILayout.Space(10);
 
-            if (GUILayout.Button("Generate Board"))
-            {
-                editor.GenerateBoard();
-            }
-
-            if (GUILayout.Button("Clear Board"))
-            {
-                editor.ClearBoard();
-            }
+            if (GUILayout.Button("Generate Board")) editor.GenerateBoard();
+            if (GUILayout.Button("Clear Board")) editor.ClearBoard();
 
             GUILayout.Space(10);
 
@@ -70,37 +62,26 @@ namespace LinkGame.LevelDesign
 
             GUILayout.Space(15);
 
-            if (selectedTile != null)
+            if (editor.selectedTile != null)
             {
-                GUILayout.Label($"Selected Tile Coordinates: ({selectedTile.X}, {selectedTile.Y})");
+                var tile = editor.selectedTile;
+                GUILayout.Label($"Selected Tile: ({tile.X}, {tile.Y})");
 
-                var newChipType = (ChipType)EditorGUILayout.EnumPopup("Chip Type", selectedChipType);
-                if (newChipType != selectedChipType)
+                var newType = (ChipType)EditorGUILayout.EnumPopup("Chip Type", tile.ChipType);
+                if (newType != tile.ChipType)
                 {
-                    Undo.RecordObject(selectedTile, "Change Chip Type");
-                    selectedChipType = newChipType;
-
-                    var chipConfigManager = editor.chipConfigManager;
-                    if (chipConfigManager == null)
+                    var config = editor.chipConfigManager.GetItemConfig(newType);
+                    if (config != null)
                     {
-                        Debug.LogError("ChipConfigManager missing in LevelEditor.");
-                        return;
+                        Undo.RecordObject(tile, "Change Chip Type");
+                        tile.ConfigureSelf(config, tile.X, tile.Y);
+                        EditorUtility.SetDirty(tile);
                     }
-
-                    var config = chipConfigManager.GetItemConfig(selectedChipType);
-                    if (config == null)
-                    {
-                        Debug.LogError($"ChipConfig not found for {selectedChipType}");
-                        return;
-                    }
-
-                    selectedTile.ConfigureSelf(config, selectedTile.X, selectedTile.Y);
-                    EditorUtility.SetDirty(selectedTile);
                 }
             }
             else
             {
-                GUILayout.Label("Select an EditorTile in the scene to edit it here.");
+                GUILayout.Label("Click a tile in the scene to edit.");
             }
         }
     }

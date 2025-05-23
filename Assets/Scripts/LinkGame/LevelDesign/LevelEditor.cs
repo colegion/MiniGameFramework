@@ -19,6 +19,9 @@ namespace LinkGame.LevelDesign
         public BaseCell editorCell;
         public PoolController poolController;
         public ChipConfigManager chipConfigManager;
+        
+        
+        [HideInInspector] public EditorTile selectedTile;
 
         private Grid _grid;
 
@@ -49,6 +52,7 @@ namespace LinkGame.LevelDesign
             tile.transform.SetParent(puzzleParent);
             tile.gameObject.SetActive(true);
             tile.ConfigureSelf(config, x, y);
+            tile.InjectEditor(this);
         }
 
         public void RemoveTileAt(int x, int y)
@@ -63,6 +67,11 @@ namespace LinkGame.LevelDesign
             {
                 DestroyImmediate(child.gameObject);
             }
+        }
+        
+        public void SetSelectedTile(EditorTile tile)
+        {
+            selectedTile = tile;
         }
         
         public LevelData SaveLevel()

@@ -1,6 +1,7 @@
 using GridSystem;
 using Helpers;
 using ScriptableObjects.Chip;
+using UnityEditor;
 using UnityEngine;
 using Grid = GridSystem.Grid;
 
@@ -8,6 +9,7 @@ namespace LinkGame.LevelDesign
 {
     public class EditorTile : BaseTile
     {
+        private LevelEditor _editor;
         public override void ConfigureSelf(ChipConfig config, int x, int y)
         {
             _x = x;
@@ -28,6 +30,16 @@ namespace LinkGame.LevelDesign
             }
 
             ConfigureTileData();
+        }
+
+        public void InjectEditor(LevelEditor editor)
+        {
+            _editor = editor;
+        }
+        
+        private void OnMouseDown()
+        {
+            _editor.SetSelectedTile(this);
         }
     }
 }

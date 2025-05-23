@@ -20,7 +20,7 @@ namespace GridSystem
                     cell.ConfigureSelf(x, y);
                     
                     if(cell.TryGetComponent(out CellEditorHandler editorHandler))
-                        editorHandler.SetEditor(editor);
+                        editorHandler.InjectEditor(editor);
                 }
             }
         }
