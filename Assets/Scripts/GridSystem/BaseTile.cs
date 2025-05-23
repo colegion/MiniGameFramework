@@ -16,14 +16,12 @@ namespace GridSystem
     {
         [SerializeField] private Collider tileCollider;
         [SerializeField] protected TileView tileView;
-        
-        protected ChipType _chipType;
     
         public int X { get; set; }
         public int Y { get; set; }
         public int Layer { get; set; }
 
-        public ChipType ChipType => _chipType;
+        public ChipType ChipType { get; set; }
 
         protected Grid Grid;
         
@@ -39,7 +37,7 @@ namespace GridSystem
             Y = y;
             Layer = LinkUtilities.DefaultChipLayer;
             _position = new Vector2Int(x, y);
-            _chipType = config.chipType;
+            ChipType = config.chipType;
             tileView.SetSprite(config.chipSprite);
             ConfigureTileData();
 
@@ -113,7 +111,7 @@ namespace GridSystem
             {
                 xCoord = X,
                 yCoord = Y,
-                chipType = _chipType
+                chipType = ChipType
             };
         }
 

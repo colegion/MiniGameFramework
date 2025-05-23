@@ -14,7 +14,7 @@ namespace LinkGame.LevelDesign
         {
             X = x;
             Y = y;
-            _chipType = config.chipType;
+            ChipType = config.chipType;
             _position = new Vector2Int(x, y);
             
             tileView.SetSprite(config.chipSprite);
