@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Helpers;
 using LinkGame;
+using LinkGame.Helpers;
 using UnityEngine;
 
 namespace ScriptableObjects.Level
 {
+    [Serializable]
     [CreateAssetMenu(fileName = "LevelConfig", menuName = "ScriptableObjects/Level/LevelConfig")]
     public class LinkLevelConfig : ScriptableObject
     {

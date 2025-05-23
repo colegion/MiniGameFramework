@@ -2,9 +2,8 @@ using System;
 using System.Collections.Generic;
 using ScriptableObjects.Level;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace LinkGame
+namespace LinkGame.Helpers
 {
     public class LinkUtilities : MonoBehaviour
     {
@@ -23,8 +22,17 @@ namespace LinkGame
     [Serializable]
     public class LevelData
     {
-        [FormerlySerializedAs("levelConfig")] public LinkLevelConfig linkLevelConfig;
+        public SerializableLinkLevelConfig linkLevelConfig;
         public List<TileData> tiles;
+    }
+    
+    [Serializable]
+    public class SerializableLinkLevelConfig
+    {
+        public int boardWidth;
+        public int boardHeight;
+        public int moveLimit;
+        public List<LevelTargetConfig> levelTargets;
     }
 
     [Serializable]

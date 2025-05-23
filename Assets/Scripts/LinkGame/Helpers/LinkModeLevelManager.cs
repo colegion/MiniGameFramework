@@ -23,6 +23,11 @@ namespace LinkGame.Helpers
             LoadLevel();
         }
 
+        public LinkModeLevelManager()
+        {
+            //@Comment: For level editor purposes 
+        }
+
         #region Public Methods
 
         public void SaveLevel(LevelData levelData)

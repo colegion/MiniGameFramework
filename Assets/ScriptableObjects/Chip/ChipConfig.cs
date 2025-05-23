@@ -1,5 +1,6 @@
 using Helpers;
 using LinkGame;
+using LinkGame.Helpers;
 using UnityEngine;
 
 namespace ScriptableObjects.Chip

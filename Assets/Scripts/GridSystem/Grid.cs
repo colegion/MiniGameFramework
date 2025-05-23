@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Helpers;
 using LinkGame;
+using LinkGame.Helpers;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

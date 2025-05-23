@@ -1,5 +1,6 @@
 using GridSystem;
 using Interfaces;
+using LinkGame.Helpers;
 
 namespace LinkGame.LevelDesign
 {

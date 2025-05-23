@@ -1,3 +1,4 @@
+using LinkGame.Helpers;
 using UnityEditor;
 using UnityEngine;
 
@@ -56,8 +57,7 @@ namespace LinkGame.LevelDesign
 
             if (GUILayout.Button("Save Level"))
             {
-                var levelData = editor.SaveLevel();
-                Debug.Log($"Saved level with {levelData.tiles.Count} tiles.");
+                editor.SaveLevel();
             }
 
             GUILayout.Space(15);

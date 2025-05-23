@@ -5,6 +5,7 @@ using LinkGame.Helpers;
 using LinkGame.LevelDesign;
 using Pool;
 using ScriptableObjects.Chip;
+using ScriptableObjects.Level;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Grid = GridSystem.Grid;
@@ -15,9 +16,11 @@ namespace LinkGame.LevelDesign
     {
         public int boardWidth = 5;
         public int boardHeight = 5;
+        public int moveLimit = 20;
         public Transform puzzleParent;
         public BaseCell editorCell;
         public PoolController poolController;
+        private LinkModeLevelManager _levelManager;
         public ChipConfigManager chipConfigManager;
 
 
@@ -28,6 +31,7 @@ namespace LinkGame.LevelDesign
         private void Start()
         {
             poolController.Initialize();
+            _levelManager = new LinkModeLevelManager();
         }
 
         public void GenerateBoard()
@@ -106,11 +110,20 @@ namespace LinkGame.LevelDesign
             selectedTile = tile;
         }
 
-        public LevelData SaveLevel()
+        public void SaveLevel()
         {
             var levelData = new LevelData();
-            levelData.linkLevelConfig.boardWidth = boardWidth;
-            levelData.linkLevelConfig.boardHeight = boardHeight;
+    
+            // Create serializable copy
+            var linkLevelConfig = new SerializableLinkLevelConfig
+            {
+                boardWidth = boardWidth,
+                boardHeight = boardHeight,
+                moveLimit = moveLimit, // Replace with actual value
+                levelTargets = new List<LevelTargetConfig>() // Add if needed
+            };
+
+            levelData.linkLevelConfig = linkLevelConfig;
             levelData.tiles = new List<TileData>();
 
             foreach (var cell in _grid.GetBoard())
@@ -122,7 +135,8 @@ namespace LinkGame.LevelDesign
                 }
             }
 
-            return levelData;
+            _levelManager.SaveLevel(levelData);
         }
+
     }
 }
