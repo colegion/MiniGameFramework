@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using CommonInterfaces;
 using Helpers;
 using Interfaces;
 using PistiGame.GameStates;
 using PistiGame.Helpers;
+using PistiGame.PistiInterfaces;
 using UnityEngine;
 
 namespace PistiGame
@@ -189,6 +191,7 @@ namespace PistiGame
 
         public void Cleanup()
         {
+            _currentState.ResetAttributes();
             Initialize();
         }
     }

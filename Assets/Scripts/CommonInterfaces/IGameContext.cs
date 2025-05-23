@@ -1,4 +1,4 @@
-namespace Interfaces
+namespace CommonInterfaces
 {
     public interface IGameContext
     {

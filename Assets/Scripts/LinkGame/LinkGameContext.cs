@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CommonInterfaces;
 using Controllers;
+using DG.Tweening;
 using GridSystem;
 using Helpers;
 using Interfaces;
@@ -181,6 +183,35 @@ namespace LinkGame
             _linkModeLevelManager.ClearProgress();
             GameController.Instance.TriggerOnGameOver(isSuccess, GameMode.LinkGame);
             EndGame();
+        }
+
+        public void SaveLevel()
+        {
+            DOTween.KillAll();
+            _linkInputController.ToggleInput(false);
+            var levelData = new LevelData();
+            
+            var linkLevelConfig = new SerializableLinkLevelConfig
+            {
+                boardWidth = _linkLevelConfig.boardWidth,
+                boardHeight = _linkLevelConfig.boardHeight,
+                moveLimit = _tracker.GetRemainingMoves(),
+                levelTargets = _tracker.GetRemainingTargets()
+            };
+
+            levelData.linkLevelConfig = linkLevelConfig;
+            levelData.tiles = new List<TileData>();
+
+            foreach (var cell in ServiceLocator.Get<Grid>().GetBoard())
+            {
+                var tile = cell.GetTile(LinkUtilities.DefaultChipLayer);
+                if (tile != null)
+                {
+                    levelData.tiles.Add(tile.TileData);
+                }
+            }
+
+            _linkModeLevelManager.SaveLevel(levelData);
         }
     }
 }

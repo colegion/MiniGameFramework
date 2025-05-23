@@ -5,6 +5,7 @@ using DG.Tweening;
 using Helpers;
 using Interfaces;
 using PistiGame.Helpers;
+using PistiGame.PistiInterfaces;
 using UnityEngine;
 
 namespace PistiGame.GameStates
@@ -15,6 +16,7 @@ namespace PistiGame.GameStates
         private const int CardAmount = 4;
         private bool _initialDistributionCompleted;
         private int _roundIndex = 0;
+        private Sequence _tableCardSequence;
         public static event Action<int, Action> OnRoundDistributed;
     
         private PistiGameContext _context;
@@ -50,7 +52,8 @@ namespace PistiGame.GameStates
 
         private void DistributeTableCards(Action onComplete)
         {
-            Sequence sequence = DOTween.Sequence();
+            _tableCardSequence = DOTween.Sequence();
+            var sequence = _tableCardSequence;
             Debug.Log("Distributing table cards...");
 
             for (int i = 0; i < CardAmount; i++)
@@ -125,9 +128,7 @@ namespace PistiGame.GameStates
             Debug.Log("User card distribution complete.");
             onComplete?.Invoke();
         }
-
-
-
+        
         public void ExitState()
         {
             _roundIndex++;
@@ -142,6 +143,12 @@ namespace PistiGame.GameStates
 
         public void ResetAttributes()
         {
+            if (_tableCardSequence != null && _tableCardSequence.IsActive())
+            {
+                _tableCardSequence.Kill();
+                _tableCardSequence = null;
+            }
+
             _initialDistributionCompleted = false;
             _roundIndex = 0;
         }

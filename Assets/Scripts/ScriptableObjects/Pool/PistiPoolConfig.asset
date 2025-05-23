@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: PistiPoolConfig
   m_EditorClassIdentifier: 
   poolConfigs:
-  - poolItemType: 3
+  - poolItemType: 4
     poolCount: 40

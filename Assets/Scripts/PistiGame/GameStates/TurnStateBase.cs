@@ -1,6 +1,7 @@
 using Helpers;
 using Interfaces;
 using PistiGame.Helpers;
+using PistiGame.PistiInterfaces;
 using UnityEngine;
 
 namespace PistiGame.GameStates

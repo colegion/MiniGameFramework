@@ -1,13 +1,9 @@
-using System;
-using Controllers;
-using LinkGame;
-using LinkGame.Controllers;
-using ScriptableObjects;
 using ScriptableObjects.Level;
 using TMPro;
+using UI;
 using UnityEngine;
 
-namespace UI
+namespace LinkGame.UI
 {
     public class LinkUIHelper : MonoBehaviour
     {
@@ -41,6 +37,7 @@ namespace UI
             moveLimitField.text = $"{_moveCount}";
             targetUIManager.OnMove(moveConfig);
         }
+        
         private void AddListeners()
         {
             LinkGameContext.OnLevelLoaded += HandleOnLevelLoaded;

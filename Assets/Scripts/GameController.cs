@@ -1,6 +1,8 @@
 using System;
+using CommonInterfaces;
 using Helpers;
 using Interfaces;
+using LinkGame;
 using Pool;
 using ScriptableObjects.Level;
 using UnityEngine;
@@ -27,7 +29,6 @@ public class GameController : MonoBehaviour
     public void SetGameContext(IGameContext context)
     {
         LoadFields();
-        _currentContext?.Cleanup();
         _currentContext = context;
         _currentContext.Initialize();
     }
@@ -47,5 +48,18 @@ public class GameController : MonoBehaviour
     public void TriggerOnGameOver(bool isSuccess, GameMode mode)
     {
         OnGameOver?.Invoke(isSuccess, mode);
+    }
+
+    public void SwitchGameMode(GameMode currentMode)
+    {
+        if (currentMode == GameMode.LinkGame)
+        {
+            (CurrentContext as LinkGameContext)?.SaveLevel();
+            SceneLoader.LoadSceneAsync(SceneType.PistiGame);
+        }
+        else
+        {
+            SceneLoader.LoadSceneAsync(SceneType.LinkGame);
+        }
     }
 }

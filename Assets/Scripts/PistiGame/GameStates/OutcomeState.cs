@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Helpers;
 using Interfaces;
 using PistiGame.Helpers;
+using PistiGame.PistiInterfaces;
 
 namespace PistiGame.GameStates
 {

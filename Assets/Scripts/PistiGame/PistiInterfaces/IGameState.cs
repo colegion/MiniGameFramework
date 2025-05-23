@@ -1,6 +1,4 @@
-using UnityEngine;
-
-namespace Interfaces
+namespace PistiGame.PistiInterfaces
 {
     public interface IGameState
     {

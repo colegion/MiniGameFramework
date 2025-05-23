@@ -17,6 +17,7 @@ namespace PistiGame
         [SerializeField] private TextMeshProUGUI infoField;
         [SerializeField] private Button startGameButton;
         [SerializeField] private TMP_Dropdown botTypeDropdown;
+        
         private BotType _selectedBotType;
         private void OnEnable()
         {
@@ -37,7 +38,6 @@ namespace PistiGame
         {
             blackishPanel.gameObject.SetActive(false);
             EventBus.Trigger(new OnCardGameRequested());
-            //bootstrapper.HandleOnGameRequested();
         }
         
         private void PopulateBotDropdown()

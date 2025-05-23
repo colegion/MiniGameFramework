@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using GridSystem;
 using Helpers;
 using Interfaces;
-using LinkGame;
-using LinkGame.Controllers;
 using LinkGame.Helpers;
 using Pool;
 using UnityEngine;
 using Grid = GridSystem.Grid;
 
-namespace Controllers
+namespace LinkGame.Controllers
 {
     public class TileFillController : MonoBehaviour, IInjectable
     {
@@ -52,14 +50,14 @@ namespace Controllers
                         float spawnHeight = topmostCell.transform.position.z + 1f;
                         Vector3 spawnPos = new Vector3(spawnX, 0, spawnHeight);
                         newTile.transform.position = spawnPos;
-                        yield return new WaitForSeconds(0.3f);
+                        yield return new WaitForSeconds(0.1f);
                         newTile.UpdatePosition(new Vector2Int(column, targetZ));
                     }
 
                     yield return new WaitForSeconds(0.03f);
                 }
 
-                yield return new WaitForSeconds(0.06f);
+                yield return new WaitForSeconds(0.03f);
             }
             
             columnEmptyRows.Clear();
