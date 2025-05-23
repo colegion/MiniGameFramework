@@ -19,8 +19,8 @@ namespace LinkGame.LevelDesign
         public BaseCell editorCell;
         public PoolController poolController;
         public ChipConfigManager chipConfigManager;
-        
-        
+
+
         [HideInInspector] public EditorTile selectedTile;
 
         private Grid _grid;
@@ -63,17 +63,49 @@ namespace LinkGame.LevelDesign
 
         public void ClearBoard()
         {
-            foreach (Transform child in puzzleParent)
+            if (_grid != null)
             {
-                DestroyImmediate(child.gameObject);
+                var board = _grid.GetBoard();
+
+                for (int x = 0; x < _grid.Width; x++)
+                {
+                    for (int y = 0; y < _grid.Height; y++)
+                    {
+                        var cell = board[x, y];
+                        if (cell != null)
+                        {
+                            var tile = cell.GetTile(LinkUtilities.DefaultChipLayer);
+                            if (tile != null)
+                            {
+                                poolController.ReturnPooledObject(tile);
+                            }
+                        }
+                    }
+                }
+
+                _grid.Clear(); // Just clears tile references inside the grid
             }
+
+            for (int i = puzzleParent.childCount - 1; i >= 0; i--)
+            {
+                Transform child = puzzleParent.GetChild(i);
+#if UNITY_EDITOR
+                DestroyImmediate(child.gameObject);
+#else
+    Destroy(child.gameObject);
+#endif
+            }
+
+            Debug.Log("[Editor] Board cleared.");
+
+            ServiceLocator.Unregister<Grid>();
         }
-        
+
         public void SetSelectedTile(EditorTile tile)
         {
             selectedTile = tile;
         }
-        
+
         public LevelData SaveLevel()
         {
             var levelData = new LevelData();
@@ -83,12 +115,13 @@ namespace LinkGame.LevelDesign
 
             foreach (var cell in _grid.GetBoard())
             {
-                var tile = cell.GetTile(LinkUtilities.DefaultChipLayer); 
+                var tile = cell.GetTile(LinkUtilities.DefaultChipLayer);
                 if (tile != null)
                 {
                     levelData.tiles.Add(tile.TileData);
                 }
             }
+
             return levelData;
         }
     }

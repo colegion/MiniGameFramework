@@ -41,5 +41,13 @@ namespace LinkGame.LevelDesign
         {
             _editor.SetSelectedTile(this);
         }
+        
+        protected override void ResetSelf()
+        {
+            tileView.ResetSelf();
+            tileView.ToggleVisuals(false);
+            _position = Vector2Int.zero;
+            gameObject.SetActive(false);
+        }
     }
 }
