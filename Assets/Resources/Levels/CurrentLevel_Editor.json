@@ -1,9 +1,330 @@
 {
     "linkLevelConfig": {
-        "boardWidth": 10,
-        "boardHeight": 10,
+        "boardWidth": 8,
+        "boardHeight": 8,
         "moveLimit": 20,
         "levelTargets": []
     },
-    "tiles": []
+    "tiles": [
+        {
+            "xCoord": 0,
+            "yCoord": 0,
+            "chipType": 2
+        },
+        {
+            "xCoord": 0,
+            "yCoord": 1,
+            "chipType": 2
+        },
+        {
+            "xCoord": 0,
+            "yCoord": 2,
+            "chipType": 3
+        },
+        {
+            "xCoord": 0,
+            "yCoord": 3,
+            "chipType": 3
+        },
+        {
+            "xCoord": 0,
+            "yCoord": 4,
+            "chipType": 1
+        },
+        {
+            "xCoord": 0,
+            "yCoord": 5,
+            "chipType": 2
+        },
+        {
+            "xCoord": 0,
+            "yCoord": 6,
+            "chipType": 0
+        },
+        {
+            "xCoord": 0,
+            "yCoord": 7,
+            "chipType": 0
+        },
+        {
+            "xCoord": 1,
+            "yCoord": 0,
+            "chipType": 0
+        },
+        {
+            "xCoord": 1,
+            "yCoord": 1,
+            "chipType": 1
+        },
+        {
+            "xCoord": 1,
+            "yCoord": 2,
+            "chipType": 3
+        },
+        {
+            "xCoord": 1,
+            "yCoord": 3,
+            "chipType": 3
+        },
+        {
+            "xCoord": 1,
+            "yCoord": 4,
+            "chipType": 1
+        },
+        {
+            "xCoord": 1,
+            "yCoord": 5,
+            "chipType": 0
+        },
+        {
+            "xCoord": 1,
+            "yCoord": 6,
+            "chipType": 0
+        },
+        {
+            "xCoord": 1,
+            "yCoord": 7,
+            "chipType": 2
+        },
+        {
+            "xCoord": 2,
+            "yCoord": 0,
+            "chipType": 1
+        },
+        {
+            "xCoord": 2,
+            "yCoord": 1,
+            "chipType": 0
+        },
+        {
+            "xCoord": 2,
+            "yCoord": 2,
+            "chipType": 3
+        },
+        {
+            "xCoord": 2,
+            "yCoord": 3,
+            "chipType": 3
+        },
+        {
+            "xCoord": 2,
+            "yCoord": 4,
+            "chipType": 0
+        },
+        {
+            "xCoord": 2,
+            "yCoord": 5,
+            "chipType": 0
+        },
+        {
+            "xCoord": 2,
+            "yCoord": 6,
+            "chipType": 2
+        },
+        {
+            "xCoord": 2,
+            "yCoord": 7,
+            "chipType": 2
+        },
+        {
+            "xCoord": 3,
+            "yCoord": 0,
+            "chipType": 1
+        },
+        {
+            "xCoord": 3,
+            "yCoord": 1,
+            "chipType": 1
+        },
+        {
+            "xCoord": 3,
+            "yCoord": 2,
+            "chipType": 3
+        },
+        {
+            "xCoord": 3,
+            "yCoord": 3,
+            "chipType": 3
+        },
+        {
+            "xCoord": 3,
+            "yCoord": 4,
+            "chipType": 0
+        },
+        {
+            "xCoord": 3,
+            "yCoord": 5,
+            "chipType": 0
+        },
+        {
+            "xCoord": 3,
+            "yCoord": 6,
+            "chipType": 2
+        },
+        {
+            "xCoord": 3,
+            "yCoord": 7,
+            "chipType": 2
+        },
+        {
+            "xCoord": 4,
+            "yCoord": 0,
+            "chipType": 1
+        },
+        {
+            "xCoord": 4,
+            "yCoord": 1,
+            "chipType": 1
+        },
+        {
+            "xCoord": 4,
+            "yCoord": 2,
+            "chipType": 3
+        },
+        {
+            "xCoord": 4,
+            "yCoord": 3,
+            "chipType": 3
+        },
+        {
+            "xCoord": 4,
+            "yCoord": 4,
+            "chipType": 0
+        },
+        {
+            "xCoord": 4,
+            "yCoord": 5,
+            "chipType": 0
+        },
+        {
+            "xCoord": 4,
+            "yCoord": 6,
+            "chipType": 2
+        },
+        {
+            "xCoord": 4,
+            "yCoord": 7,
+            "chipType": 2
+        },
+        {
+            "xCoord": 5,
+            "yCoord": 0,
+            "chipType": 1
+        },
+        {
+            "xCoord": 5,
+            "yCoord": 1,
+            "chipType": 0
+        },
+        {
+            "xCoord": 5,
+            "yCoord": 2,
+            "chipType": 3
+        },
+        {
+            "xCoord": 5,
+            "yCoord": 3,
+            "chipType": 3
+        },
+        {
+            "xCoord": 5,
+            "yCoord": 4,
+            "chipType": 0
+        },
+        {
+            "xCoord": 5,
+            "yCoord": 5,
+            "chipType": 0
+        },
+        {
+            "xCoord": 5,
+            "yCoord": 6,
+            "chipType": 2
+        },
+        {
+            "xCoord": 5,
+            "yCoord": 7,
+            "chipType": 2
+        },
+        {
+            "xCoord": 6,
+            "yCoord": 0,
+            "chipType": 0
+        },
+        {
+            "xCoord": 6,
+            "yCoord": 1,
+            "chipType": 1
+        },
+        {
+            "xCoord": 6,
+            "yCoord": 2,
+            "chipType": 3
+        },
+        {
+            "xCoord": 6,
+            "yCoord": 3,
+            "chipType": 3
+        },
+        {
+            "xCoord": 6,
+            "yCoord": 4,
+            "chipType": 1
+        },
+        {
+            "xCoord": 6,
+            "yCoord": 5,
+            "chipType": 0
+        },
+        {
+            "xCoord": 6,
+            "yCoord": 6,
+            "chipType": 0
+        },
+        {
+            "xCoord": 6,
+            "yCoord": 7,
+            "chipType": 2
+        },
+        {
+            "xCoord": 7,
+            "yCoord": 0,
+            "chipType": 2
+        },
+        {
+            "xCoord": 7,
+            "yCoord": 1,
+            "chipType": 2
+        },
+        {
+            "xCoord": 7,
+            "yCoord": 2,
+            "chipType": 3
+        },
+        {
+            "xCoord": 7,
+            "yCoord": 3,
+            "chipType": 3
+        },
+        {
+            "xCoord": 7,
+            "yCoord": 4,
+            "chipType": 1
+        },
+        {
+            "xCoord": 7,
+            "yCoord": 5,
+            "chipType": 2
+        },
+        {
+            "xCoord": 7,
+            "yCoord": 6,
+            "chipType": 0
+        },
+        {
+            "xCoord": 7,
+            "yCoord": 7,
+            "chipType": 0
+        }
+    ]
 }

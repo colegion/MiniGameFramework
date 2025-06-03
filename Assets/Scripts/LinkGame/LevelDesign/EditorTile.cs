@@ -1,5 +1,6 @@
 using GridSystem;
 using Helpers;
+using LinkGame.Helpers;
 using ScriptableObjects.Chip;
 using UnityEditor;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace LinkGame.LevelDesign
             Y = y;
             ChipType = config.chipType;
             _position = new Vector2Int(x, y);
+            Layer = LinkUtilities.DefaultChipLayer;
             
             tileView.SetSprite(config.chipSprite);
             
@@ -44,6 +46,7 @@ namespace LinkGame.LevelDesign
         
         protected override void ResetSelf()
         {
+            Grid.ClearTileOfParentCell(this);
             tileView.ResetSelf();
             tileView.ToggleVisuals(false);
             _position = Vector2Int.zero;

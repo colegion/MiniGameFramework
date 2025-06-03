@@ -10,7 +10,7 @@ namespace LinkGame.Helpers
     {
         private const string DarkCellPath = "Prefabs/BaseCell";
         private const string LightCellPath = "Prefabs/BaseCell";
-        private const string LevelDataResourcePath = "Levels/CurrentLevel";
+        private const string LevelDataResourcePath = "Levels/CurrentLevel_Editor";
         private const string PersistentLevelFolder = "Levels";
         private const string PersistentLevelFileName = "CurrentLevel.json";
 
@@ -63,7 +63,7 @@ namespace LinkGame.Helpers
 
             Debug.Log($"[LevelManager] Level data saved to Resources at: {savePath}");
 
-            AssetDatabase.Refresh(); // So Unity picks it up as a TextAsset
+            AssetDatabase.Refresh(); 
 #else
     Debug.LogWarning("SaveLevelToResources is only available in the Unity Editor.");
 #endif
@@ -74,7 +74,18 @@ namespace LinkGame.Helpers
 
         private void LoadLevel()
         {
-            LevelData levelData = TryLoadFromPersistentPath() ?? TryLoadFromResources();
+            LevelData levelData = TryLoadFromPersistentPath();
+
+            if (levelData == null)
+            {
+                levelData = TryLoadFromResources();
+
+                if (levelData != null)
+                {
+                    Debug.Log("[LevelManager] First-time load: copying designed level to persistent path.");
+                    SaveLevel(levelData); // Save it to persistent path for future loads
+                }
+            }
 
             if (levelData != null)
             {
@@ -87,6 +98,7 @@ namespace LinkGame.Helpers
                 GenerateDefaultBoard();
             }
         }
+
 
         private LevelData TryLoadFromPersistentPath()
         {

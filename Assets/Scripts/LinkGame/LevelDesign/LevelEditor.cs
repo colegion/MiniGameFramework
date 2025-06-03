@@ -63,6 +63,8 @@ namespace LinkGame.LevelDesign
                 return;
             }
 
+            if (_grid.GetCell(x, y).GetTile(LinkUtilities.DefaultChipLayer) != null) return;
+
             var tile = (EditorTile)poolController.GetPooledObject(PoolableTypes.EditorTile);
             tile.transform.SetParent(puzzleParent);
             tile.gameObject.SetActive(true);
@@ -145,7 +147,7 @@ namespace LinkGame.LevelDesign
                 }
             }
 
-            _levelManager.SaveLevel(levelData);
+            _levelManager.SaveLevelToResources(levelData);
         }
 
     }
