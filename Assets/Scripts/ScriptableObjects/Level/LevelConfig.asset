@@ -18,5 +18,5 @@ MonoBehaviour:
   levelTargets:
   - targetType: 0
     count: 20
-  - targetType: 2
+  - targetType: 3
     count: 20

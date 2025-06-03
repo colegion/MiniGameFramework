@@ -56,7 +56,7 @@ namespace UI
         
         private void Restart()
         {
-            GameController.Instance.CurrentContext.Initialize();
+            GameController.Instance.CurrentContext.Cleanup();
             gameObject.SetActive(false);
             Destroy(gameObject);
         }
