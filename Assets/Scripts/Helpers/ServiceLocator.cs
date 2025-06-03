@@ -35,5 +35,11 @@ namespace Helpers
                 Debug.LogWarning($"Service of type {typeof(T)} was not found to unregister.");
             }
         }
+
+        public static void UnregisterAll()
+        {
+            Services.Clear();
+            Debug.Log("All services have been unregistered.");
+        }
     }
 }

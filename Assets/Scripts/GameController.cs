@@ -52,13 +52,16 @@ public class GameController : MonoBehaviour
 
     public void SwitchGameMode(GameMode currentMode)
     {
+    
         if (currentMode == GameMode.LinkGame)
         {
             (CurrentContext as LinkGameContext)?.SaveLevel();
+            ServiceLocator.UnregisterAll();
             SceneLoader.LoadSceneAsync(SceneType.PistiGame);
         }
         else
         {
+            ServiceLocator.UnregisterAll();
             SceneLoader.LoadSceneAsync(SceneType.LinkGame);
         }
     }

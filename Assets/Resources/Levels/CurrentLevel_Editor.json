@@ -1,0 +1,9 @@
+{
+    "linkLevelConfig": {
+        "boardWidth": 10,
+        "boardHeight": 10,
+        "moveLimit": 20,
+        "levelTargets": []
+    },
+    "tiles": []
+}

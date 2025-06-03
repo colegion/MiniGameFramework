@@ -1,6 +1,7 @@
 using System.IO;
 using GridSystem;
 using Helpers;
+using UnityEditor;
 using UnityEngine;
 
 namespace LinkGame.Helpers
@@ -46,6 +47,27 @@ namespace LinkGame.Helpers
             Debug.Log($"[LevelManager] Level data saved to: {savePath}");
         }
 
+        public void SaveLevelToResources(LevelData levelData, string fileName = "CurrentLevel_Editor.json")
+        {
+#if UNITY_EDITOR
+            string resourcesPath = Path.Combine(Application.dataPath, "Resources/Levels");
+
+            if (!Directory.Exists(resourcesPath))
+            {
+                Directory.CreateDirectory(resourcesPath);
+            }
+
+            string savePath = Path.Combine(resourcesPath, fileName);
+            string json = JsonUtility.ToJson(levelData, prettyPrint: true);
+            File.WriteAllText(savePath, json);
+
+            Debug.Log($"[LevelManager] Level data saved to Resources at: {savePath}");
+
+            AssetDatabase.Refresh(); // So Unity picks it up as a TextAsset
+#else
+    Debug.LogWarning("SaveLevelToResources is only available in the Unity Editor.");
+#endif
+        }
         #endregion
 
         #region Private Methods
