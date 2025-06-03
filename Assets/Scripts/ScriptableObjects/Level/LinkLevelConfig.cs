@@ -33,6 +33,14 @@ namespace ScriptableObjects.Level
                 .Select(pair => new LevelTargetConfig { targetType = pair.Key, count = pair.Value })
                 .ToList();
         }
+        
+        public void OverrideWith(LevelData levelData)
+        {
+            boardWidth = levelData.linkLevelConfig.boardWidth;
+            boardHeight = levelData.linkLevelConfig.boardHeight;
+            moveLimit = levelData.linkLevelConfig.moveLimit;
+            levelTargets = levelData.linkLevelConfig.levelTargets;
+        }
     }
 
     [Serializable]

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.IO;
 using System.Linq;
 using Controllers;
 using Helpers;
@@ -16,14 +17,45 @@ namespace LinkGame
 {
     public class LinkBootstrapper : BaseBootstrapper
     {
-        [FormerlySerializedAs("levelConfig")] [SerializeField] private LinkLevelConfig linkLevelConfig;
+        [SerializeField] private LinkLevelConfig linkLevelConfig;
         [SerializeField] private Transform puzzleParent;
         [SerializeField] private CameraController cameraController;
         [SerializeField] private LinkInputController inputController;
 
+        private const string PersistentLevelFolder = "Levels";
+        private const string PersistentLevelFileName = "CurrentLevel.json";
+
         private void Awake()
         {
+            LoadSavedLevelIfExists();
             StartCoroutine(InitializeDependencies());
+        }
+
+        private void LoadSavedLevelIfExists()
+        {
+            string path = Path.Combine(Application.persistentDataPath, PersistentLevelFolder, PersistentLevelFileName);
+
+            if (!File.Exists(path))
+            {
+                Debug.Log("[LinkBootstrapper] No saved level found. Using default config.");
+                return;
+            }
+
+            try
+            {
+                string json = File.ReadAllText(path);
+                var savedData = JsonUtility.FromJson<LevelData>(json);
+
+                if (savedData != null)
+                {
+                    Debug.Log("[LinkBootstrapper] Loaded saved level. Overriding default config.");
+                    linkLevelConfig.OverrideWith(savedData);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[LinkBootstrapper] Failed to load saved level: {ex.Message}");
+            }
         }
 
         public override IEnumerator InitializeDependencies()
